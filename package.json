@@ -15,7 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "@logseq/libs": "^0.0.1-alpha.34",
-    "axios": "^0.24.0"
+    "axios": "^0.24.0",
+    "leaflet": "^1.7.1"
   },
   "logseq": {
     "id": "logseq-maps-plugin",
@@ -23,6 +24,7 @@
     "icon": ""
   },
   "devDependencies": {
+    "@types/leaflet": "^1.7.8",
     "parcel": "^2.0.1"
   }
 }

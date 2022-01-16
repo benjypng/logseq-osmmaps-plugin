@@ -20,14 +20,13 @@ function main() {
   });
 
   logseq.App.onMacroRendererSlotted(async ({ slot, payload }) => {
-    const uuid = payload.uuid;
     const [type, lat, lng] = payload.arguments;
     if (!type.startsWith(':map_')) return;
 
     const id = type.split('_')[1]?.trim();
 
     if (lng) {
-      const coords = [parseFloat(lat), parseFloat(lng)];
+      const coords: [number, number] = [parseFloat(lat), parseFloat(lng)];
 
       console.log(coords);
 
@@ -43,14 +42,15 @@ function main() {
         },
       });
 
-      const coords = [response.data[0].lat, response.data[0].lon];
+      const coords: [number, number] = [
+        response.data[0].lat,
+        response.data[0].lon,
+      ];
 
       console.log(coords);
 
       renderMap(id, coords);
     }
-
-    if (uuid) return;
   });
 }
 

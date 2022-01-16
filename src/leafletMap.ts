@@ -19,22 +19,22 @@ export const renderMap = (uniqueIdentifier: string, coords: LatLngTuple) => {
     }
 
     connectedCallback() {
-      // @ts-expect-error
-      const map = top?.L.map(this).setView(coords, 12);
-      const pin = top?.L.icon;
-      ({ iconUrl: 'marker.png' });
+      window.setTimeout(() => {
+        // @ts-expect-error
+        const map = top?.L.map(this).setView(coords, 12);
 
-      // @ts-expect-error
-      top?.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-      }).addTo(map);
+        // @ts-expect-error
+        top?.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 18,
+          id: 'mapbox/streets-v11',
+          tileSize: 512,
+          zoomOffset: -1,
+        }).addTo(map);
 
-      top?.L.marker(coords).addTo(map);
+        top?.L.marker(coords).addTo(map);
+      }, 500);
     }
   }
 
