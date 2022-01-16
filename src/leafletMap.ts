@@ -33,6 +33,7 @@ export const renderMap = (uniqueIdentifier: string, coords: LatLngTuple) => {
           zoomOffset: -1,
         }).addTo(map);
 
+        // @ts-expect-error
         top?.L.marker(coords).addTo(map);
       }, 500);
     }
