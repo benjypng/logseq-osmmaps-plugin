@@ -21,7 +21,7 @@
   "logseq": {
     "id": "logseq-maps-plugin",
     "title": "logseq-maps-plugin",
-    "icon": ""
+    "icon": "./icon.svg"
   },
   "devDependencies": {
     "@types/leaflet": "^1.7.8",
