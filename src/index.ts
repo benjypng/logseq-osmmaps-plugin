@@ -15,7 +15,7 @@ function main() {
   logseq.Editor.registerSlashCommand('add map', async () => {
     const id = uniqueIdentifier();
     await logseq.Editor.insertAtEditingCursor(
-      `{{renderer :map_${id}, 1.35,103.82}} [:div {:is "map-${id}"}]`
+      `{{renderer :map_${id}, Singapore}} [:div {:is "map-${id}"}]`
     );
   });
 
@@ -26,24 +26,29 @@ function main() {
 
     const id = type.split('_')[1]?.trim();
 
-    // const coords = [parseFloat(lat), parseFloat(lng)];
+    if (lng) {
+      const coords = [parseFloat(lat), parseFloat(lng)];
 
-    // console.log(coords);
+      console.log(coords);
 
-    const response = await axios({
-      method: 'get',
-      url: `   https://nominatim.openstreetmap.org/`,
-      params: {
-        q: lat,
-        format: 'json',
-        limit: 1,
-      },
-    });
+      renderMap(id, coords);
+    } else {
+      const response = await axios({
+        method: 'get',
+        url: `   https://nominatim.openstreetmap.org/`,
+        params: {
+          q: lat,
+          format: 'json',
+          limit: 1,
+        },
+      });
 
-    const coords = [response.data[0].lat, response.data[0].lon];
+      const coords = [response.data[0].lat, response.data[0].lon];
 
-    renderMap(id, coords);
-    console.log(response.data);
+      console.log(coords);
+
+      renderMap(id, coords);
+    }
 
     if (uuid) return;
   });
