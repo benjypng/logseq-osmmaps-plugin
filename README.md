@@ -45,5 +45,6 @@ Manual installation for now if you cannot find it in the marketplace.
 
 # Credits
 
-- Darwis for his idea on this implementation approach.
-- [Open Street Maps](https://www.openstreetmap.org/copyright)
+- Darwis for his idea on this implementation approach and his guidance.
+- [Open Street Maps](https://www.openstreetmap.org/copyright).
+- [Leaflet Routing Machine](https://github.com/perliedman/leaflet-routing-machine)

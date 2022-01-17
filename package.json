@@ -1,6 +1,6 @@
 {
   "name": "logseq-osmmaps-plugin",
-  "version": "1.0",
+  "version": "1.01",
   "description": "",
   "main": "dist/index.html",
   "targets": {
