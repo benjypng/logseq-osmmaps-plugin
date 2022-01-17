@@ -6,10 +6,18 @@ declare global {
   }
 }
 
-export const renderMap = (uniqueIdentifier: string, coords: LatLngTuple) => {
+export const renderMap = (
+  uniqueIdentifier: string,
+  coords: LatLngTuple | [LatLngTuple, LatLngTuple]
+) => {
   const HTMLDivEl: typeof HTMLDivElement = top?.HTMLDivElement;
 
-  const NAME = `map-${uniqueIdentifier}`;
+  let NAME: string;
+  if (typeof coords[0] === 'number' || typeof coords[0] === 'string') {
+    NAME = `map-${uniqueIdentifier}`;
+  } else {
+    NAME = `map-routes-${uniqueIdentifier}`;
+  }
 
   class LeafletMap extends HTMLDivEl {
     constructor() {
@@ -26,7 +34,7 @@ export const renderMap = (uniqueIdentifier: string, coords: LatLngTuple) => {
         });
 
         // @ts-expect-error
-        const map = top?.L.map(this).setView(coords, 12);
+        const map = top?.L.map(this).setView(coords[0], 12);
 
         // @ts-expect-error
         top?.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -39,20 +47,18 @@ export const renderMap = (uniqueIdentifier: string, coords: LatLngTuple) => {
         }).addTo(map);
 
         // @ts-expect-error
-        top?.L.marker(coords).addTo(map);
+        top?.L.marker(coords[0]).addTo(map);
 
-        // @ts-expect-error
-        top?.L.Routing.control({
-          waypoints: [
-            [57.74, 11.94],
-            [57.6792, 11.949],
-          ],
-        }).addTo(map);
+        if (typeof coords[0] === 'number' || typeof coords[0] === 'string') {
+          return;
+        } else {
+          // @ts-expect-error
+          top?.L.Routing.control({
+            waypoints: coords,
+          }).addTo(map);
 
-        map.fitBounds([
-          [57.74, 11.94],
-          [57.6792, 11.949],
-        ]);
+          map.fitBounds(coords);
+        }
       }, 500);
     }
   }
