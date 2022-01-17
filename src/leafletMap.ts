@@ -13,7 +13,7 @@ export const renderMap = (
   const HTMLDivEl: typeof HTMLDivElement = top?.HTMLDivElement;
 
   let NAME: string;
-  if (typeof coords[0] === 'number' || typeof coords[0] === 'string') {
+  if (typeof coords[0] === 'number') {
     NAME = `map-${uniqueIdentifier}`;
   } else {
     NAME = `map-routes-${uniqueIdentifier}`;
@@ -33,8 +33,14 @@ export const renderMap = (
           e.preventDefault();
         });
 
-        // @ts-expect-error
-        const map = top?.L.map(this).setView(coords[0], 12);
+        let map: any;
+        if (typeof coords[0] === 'number') {
+          // @ts-expect-error
+          map = top?.L.map(this).setView(coords, 12);
+        } else {
+          // @ts-expect-error
+          map = top?.L.map(this).setView(coords[0], 12);
+        }
 
         // @ts-expect-error
         top?.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -46,12 +52,15 @@ export const renderMap = (
           zoomOffset: -1,
         }).addTo(map);
 
-        // @ts-expect-error
-        top?.L.marker(coords[0]).addTo(map);
-
-        if (typeof coords[0] === 'number' || typeof coords[0] === 'string') {
-          return;
+        if (typeof coords[0] === 'number') {
+          // @ts-expect-error
+          top?.L.marker(coords).addTo(map);
         } else {
+          // @ts-expect-error
+          top?.L.marker(coords[0]).addTo(map);
+        }
+
+        if (typeof coords[0] !== 'number') {
           // @ts-expect-error
           top?.L.Routing.control({
             waypoints: coords,

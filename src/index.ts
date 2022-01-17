@@ -93,8 +93,8 @@ function main() {
         });
 
         const coords: [number, number] = [
-          response.data[0].lat,
-          response.data[0].lon,
+          parseFloat(response.data[0].lat),
+          parseFloat(response.data[0].lon),
         ];
 
         console.log(coords);
