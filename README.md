@@ -1,5 +1,7 @@
 > **IMPORTANT** The routing option is based on OSRM's demo server and therefore should not be abused. If you do so, you may notice that it stops working or works wrongly. Open Street Map has kindly provided these services to the open source community and we should respect them for it, and comply with their rules.
 
+<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="hkgnp.dev" data-color="#40DCA5" data-emoji="" data-font="Arial" data-text="Buy me a coffee!" data-outline-color="#000000" data-font-color="#ffffff" data-coffee-color="#FFDD00" ></script>
+
 # Overview
 
 This plugin lets you create a map and plot a marker on a specific spot. A possible use case is to perhaps journal an event that happened somewhere memorable.
