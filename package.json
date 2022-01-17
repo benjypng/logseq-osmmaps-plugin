@@ -1,5 +1,5 @@
 {
-  "name": "logseq-maps-plugin",
+  "name": "logseq-osmmaps-plugin",
   "version": "1.0",
   "description": "",
   "main": "dist/index.html",
@@ -19,8 +19,8 @@
     "leaflet": "^1.7.1"
   },
   "logseq": {
-    "id": "logseq-maps-plugin",
-    "title": "logseq-maps-plugin",
+    "id": "logseq-osmmaps-plugin",
+    "title": "logseq-osmmaps-plugin",
     "icon": "./icon.svg"
   },
   "devDependencies": {
