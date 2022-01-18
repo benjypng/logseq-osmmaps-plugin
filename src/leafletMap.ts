@@ -8,7 +8,8 @@ declare global {
 
 export const renderMap = (
   uniqueIdentifier: string,
-  coords: LatLngTuple | [LatLngTuple, LatLngTuple]
+  coords: LatLngTuple | [LatLngTuple, LatLngTuple],
+  mapType = 'string'
 ) => {
   const HTMLDivEl: typeof HTMLDivElement = top?.HTMLDivElement;
 
@@ -44,19 +45,53 @@ export const renderMap = (
           // @ts-expect-error
           map = top?.L.map(this).setView(
             coords[0],
-            logeq.settings.defaultZoom || 12
+            logseq.settings.defaultZoom || 12
           );
         }
-
-        // @ts-expect-error
-        top?.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          maxZoom: 18,
-          id: 'mapbox/streets-v11',
-          tileSize: 512,
-          zoomOffset: -1,
-        }).addTo(map);
+        let options: object;
+        if (mapType === 'default') {
+          // @ts-expect-error
+          top?.L.tileLayer(
+            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {
+              attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              maxZoom: 18,
+              id: 'mapbox/streets-v11',
+              tileSize: 512,
+              zoomOffset: -1,
+            }
+          ).addTo(map);
+          options = { profile: 'mapbox/driving-traffic' };
+        } else if (mapType === 'hiking') {
+          // @ts-expect-error
+          top?.L.tileLayer(
+            `https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=${logseq.settings.thunderForestApi}`,
+            {
+              attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              maxZoom: 18,
+              id: 'mapbox/streets-v11',
+              tileSize: 512,
+              zoomOffset: -1,
+            }
+          ).addTo(map);
+          options = { profile: 'mapbox/walking' };
+        } else if (mapType === 'cycling') {
+          // @ts-expect-error
+          top?.L.tileLayer(
+            `https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=${logseq.settings.thunderForestApi}`,
+            {
+              attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              maxZoom: 18,
+              id: 'mapbox/streets-v11',
+              tileSize: 512,
+              zoomOffset: -1,
+            }
+          ).addTo(map);
+          options = { profile: 'mapbox/cycling' };
+        }
 
         if (typeof coords[0] === 'number') {
           // @ts-expect-error
@@ -70,6 +105,8 @@ export const renderMap = (
           // @ts-expect-error
           top?.L.Routing.control({
             waypoints: coords,
+            // @ts-expect-error
+            router: top?.L.Routing.mapbox(logseq.settings.mapboxApi, options),
           }).addTo(map);
 
           map.fitBounds(coords);

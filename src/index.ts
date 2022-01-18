@@ -16,19 +16,19 @@ function main() {
   logseq.Editor.registerSlashCommand('add map', async () => {
     const id = uniqueIdentifier();
     await logseq.Editor.insertAtEditingCursor(
-      `{{renderer :map_${id}, Singapore}} [:div {:is "map-${id}"}]`
+      `{{renderer :map_${id}, default, Singapore}} [:div {:is "map-${id}"}]`
     );
   });
 
   logseq.Editor.registerSlashCommand('add map with routes', async () => {
     const id = uniqueIdentifier();
     await logseq.Editor.insertAtEditingCursor(
-      `{{renderer :map-routes_${id}, Manchester Airport, Old Trafford}} [:div {:is "map-routes-${id}"}]`
+      `{{renderer :map-routes_${id}, default, Manchester Airport, Old Trafford}} [:div {:is "map-routes-${id}"}]`
     );
   });
 
   logseq.App.onMacroRendererSlotted(async ({ slot, payload }) => {
-    const [type, var1, var2, var3, var4] = payload.arguments;
+    const [type, mapType, var1, var2, var3, var4] = payload.arguments;
     if (!type.startsWith(':map_') && !type.startsWith(':map-routes_')) return;
 
     const id = type.split('_')[1]?.trim();
@@ -42,7 +42,7 @@ function main() {
 
         console.log(routeCoords);
 
-        renderMap(id, routeCoords);
+        renderMap(id, routeCoords, mapType);
       } else if (var1 && var2 && !var3 && !var4) {
         // Check if location only
         const response = await axios({
@@ -72,7 +72,7 @@ function main() {
 
         console.log(routeCoords);
 
-        renderMap(id, routeCoords);
+        renderMap(id, routeCoords, mapType);
       }
     } else if (type.startsWith(':map_')) {
       if (var1 && var2 && !var3 && !var4) {
@@ -80,7 +80,7 @@ function main() {
 
         console.log(coords);
 
-        renderMap(id, coords);
+        renderMap(id, coords, mapType);
       } else if (var1 && !var2 && !var3 && !var4) {
         const response = await axios({
           method: 'get',
@@ -99,7 +99,7 @@ function main() {
 
         console.log(coords);
 
-        renderMap(id, coords);
+        renderMap(id, coords, mapType);
       }
     }
   });
