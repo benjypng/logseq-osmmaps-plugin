@@ -40,7 +40,7 @@ In the plugin settings, copy and paste the code below, and just the setting acco
 
 ```
 {
-    defaultZoom: 12
+    "defaultZoom": 12
 }
 ```
 
