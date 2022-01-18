@@ -36,10 +36,16 @@ export const renderMap = (
         let map: any;
         if (typeof coords[0] === 'number') {
           // @ts-expect-error
-          map = top?.L.map(this).setView(coords, 12);
+          map = top?.L.map(this).setView(
+            coords,
+            logseq.settings.defaultZoom || 12
+          );
         } else {
           // @ts-expect-error
-          map = top?.L.map(this).setView(coords[0], 12);
+          map = top?.L.map(this).setView(
+            coords[0],
+            logeq.settings.defaultZoom || 12
+          );
         }
 
         // @ts-expect-error

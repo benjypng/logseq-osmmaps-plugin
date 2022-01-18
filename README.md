@@ -34,6 +34,16 @@ By latitude and logitude:
 {{renderer :map_rxbtanqd, 37.77, -122.43}} [:div {:is "map-rxbtanqd"}] //San Francisco
 ```
 
+### Setting Default Zoom (does not apply to routes function)
+
+In the plugin settings, copy and paste the code below, and just the setting accordingly.
+
+```
+{
+    defaultZoom: 12
+}
+```
+
 ## Map Routes
 
 1. Type `/add map with routes` on any block.
