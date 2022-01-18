@@ -46,7 +46,7 @@ In the plugin settings, copy and paste the code below, and just the setting acco
 
 1. Type `/add map with routes` on any block.
 2. A renderer line will appear that looks something like this: `{{renderer :map-routes_${id}, default, Manchester Airport, Old Trafford}} [:div {:is "map-routes-${id}"}]`.
-3. Keep `default` or replace with either of the below (note that if you would like to use the below routes, you will need to get additional API keys from ThunderForest and Mapbox. Instructions for this are in the below section):
+3. Keep `default` or replace with either of the below (note that if you would like to use the below routes, you will need to get additional API keys from ThunderForest and Mapbox. Instructions for this are in the [below section](https://github.com/hkgnp/logseq-osmmaps-plugin#api-keys)):
 
 - cycling (to get cycling routes)
 - hiking (to get hiking routes)
@@ -83,7 +83,7 @@ Thunderforest API keys are for providing cycling and hiking maps. Go to [their w
 
 Instructions:
 
-In your Logseq settings, copy and paste the following code:
+In your Logseq settings, copy and paste the following code and edit in your API keys/tokens accordingly:
 
 ```
 {
