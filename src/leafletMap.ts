@@ -66,7 +66,7 @@ export const renderMap = (
         } else if (mapType === 'hiking') {
           // @ts-expect-error
           top?.L.tileLayer(
-            `https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=${logseq.settings.thunderForestApi}`,
+            `https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=${logseq.settings.thunderForestApi}`,
             {
               attribution:
                 '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
