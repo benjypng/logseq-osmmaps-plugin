@@ -83,7 +83,7 @@ Thunderforest API keys are for providing cycling and hiking maps. Go to [their w
 
 Instructions:
 
-In your Logseq settings, copy and paste the following code and edit in your API keys/tokens accordingly:
+In the settings of the plugin (tiny gear icon), copy and paste the following code and edit in your API keys/tokens accordingly. After saving the file, please ensure that you restart Logeq for the settings to take effect.
 
 ```
 {
