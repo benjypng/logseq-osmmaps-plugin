@@ -1,4 +1,4 @@
-import { LatLngTuple } from 'leaflet';
+import { LatLngTuple } from "leaflet";
 
 declare global {
   interface Window {
@@ -9,12 +9,12 @@ declare global {
 export const renderMap = (
   uniqueIdentifier: string,
   coords: LatLngTuple | [LatLngTuple, LatLngTuple],
-  mapType = 'string'
+  mapType = "string"
 ) => {
   const HTMLDivEl: typeof HTMLDivElement = top?.HTMLDivElement;
 
   let NAME: string;
-  if (typeof coords[0] === 'number') {
+  if (typeof coords[0] === "number") {
     NAME = `map-${uniqueIdentifier}`;
   } else {
     NAME = `map-routes-${uniqueIdentifier}`;
@@ -23,19 +23,19 @@ export const renderMap = (
   class LeafletMap extends HTMLDivEl {
     constructor() {
       super();
-      this.style.position = 'relative';
-      this.style.height = '500px';
+      this.style.position = "relative";
+      this.style.height = "500px";
     }
 
     connectedCallback() {
       window.setTimeout(() => {
-        this.addEventListener('mousedown', (e) => {
+        this.addEventListener("mousedown", (e) => {
           e.stopPropagation();
           e.preventDefault();
         });
 
         let map: any;
-        if (typeof coords[0] === 'number') {
+        if (typeof coords[0] === "number") {
           // @ts-expect-error
           map = top?.L.map(this).setView(
             coords,
@@ -49,21 +49,21 @@ export const renderMap = (
           );
         }
         let options: object;
-        if (mapType === 'default') {
+        if (mapType === "default") {
           // @ts-expect-error
           top?.L.tileLayer(
-            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
               attribution:
                 '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
               maxZoom: 18,
-              id: 'mapbox/streets-v11',
+              id: "mapbox/streets-v11",
               tileSize: 512,
               zoomOffset: -1,
             }
           ).addTo(map);
-          options = { profile: 'mapbox/driving-traffic' };
-        } else if (mapType === 'hiking') {
+          options = { profile: "mapbox/driving-traffic" };
+        } else if (mapType === "hiking") {
           // @ts-expect-error
           top?.L.tileLayer(
             `https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=${logseq.settings.thunderForestApi}`,
@@ -71,13 +71,13 @@ export const renderMap = (
               attribution:
                 '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
               maxZoom: 18,
-              id: 'mapbox/streets-v11',
+              id: "mapbox/streets-v11",
               tileSize: 512,
               zoomOffset: -1,
             }
           ).addTo(map);
-          options = { profile: 'mapbox/walking' };
-        } else if (mapType === 'cycling') {
+          options = { profile: "mapbox/walking" };
+        } else if (mapType === "cycling") {
           // @ts-expect-error
           top?.L.tileLayer(
             `https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=${logseq.settings.thunderForestApi}`,
@@ -85,15 +85,15 @@ export const renderMap = (
               attribution:
                 '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
               maxZoom: 18,
-              id: 'mapbox/streets-v11',
+              id: "mapbox/streets-v11",
               tileSize: 512,
               zoomOffset: -1,
             }
           ).addTo(map);
-          options = { profile: 'mapbox/cycling' };
+          options = { profile: "mapbox/cycling" };
         }
 
-        if (typeof coords[0] === 'number') {
+        if (typeof coords[0] === "number") {
           // @ts-expect-error
           top?.L.marker(coords).addTo(map);
         } else {
@@ -101,7 +101,7 @@ export const renderMap = (
           top?.L.marker(coords[0]).addTo(map);
         }
 
-        if (typeof coords[0] !== 'number') {
+        if (typeof coords[0] !== "number") {
           // @ts-expect-error
           top?.L.Routing.control({
             waypoints: coords,
@@ -116,7 +116,7 @@ export const renderMap = (
   }
 
   logseq.provideStyle(
-    `@import url('https://unpkg.com/leaflet@1.7.1/dist/leaflet.css');`
+    `@import url('https://unpkg.com/leaflet@1.9.3/dist/leaflet.css');`
   );
   logseq.provideStyle(
     `@import url('https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css')`
@@ -124,23 +124,23 @@ export const renderMap = (
 
   if (!top?.customElements.get(NAME)) {
     // Add leafletjs
-    const script = top?.document.createElement('script');
+    const script = top?.document.createElement("script");
     script?.setAttribute(
-      'src',
-      'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js'
+      "src",
+      "https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
     );
     top?.document.body.appendChild(script);
 
     // Add leaflet routing machine
-    const script2 = top?.document.createElement('script');
+    const script2 = top?.document.createElement("script");
     script2?.setAttribute(
-      'src',
-      'https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js'
+      "src",
+      "https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"
     );
     top?.document.body.appendChild(script2);
 
     top?.customElements.define(NAME, LeafletMap, {
-      extends: 'div',
+      extends: "div",
     });
   }
 };
