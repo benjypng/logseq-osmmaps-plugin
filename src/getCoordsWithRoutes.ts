@@ -6,9 +6,7 @@ export default async function getCoordsWithRoutes(
   id: string,
   mapType: string,
   var1: string,
-  var2: string,
-  var3: string,
-  var4: string
+  var2: string
 ) {
   const mapElem = top?.document.getElementById(`map-${id}`);
   if (mapElem) {

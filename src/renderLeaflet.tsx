@@ -1,6 +1,7 @@
 import { LatLngTuple } from "leaflet";
 import drawTilesWithoutRoutes from "../withoutRoutes";
-import addElement from "./addElementToDom";
+import insertWaypoints from "./services/insertWaypoints";
+import addElement from "./utils/addElementToDom";
 import createRefreshBtn from "./utils/createRefreshBtn";
 import getAllBlocksWithCoords from "./utils/getAllBlocksWithCoords";
 
@@ -72,6 +73,9 @@ export default function renderLeaflet(
         drawTilesWithoutRoutes(map, mapType);
 
         const allBlocksWithCoords = await getAllBlocksWithCoords(this.uuid);
+
+        // Add waypoints if they can be found in allBlocksWithCoords
+        insertWaypoints(allBlocksWithCoords, map);
 
         // Create feature group so as to set fitBounds later
         //@ts-expect-error

@@ -2,7 +2,7 @@ import { LatLngTuple } from "leaflet";
 import axios from "axios";
 import renderLeaflet from "./renderLeaflet";
 
-export default async function getCoordsWithoutRoutes(
+export default async function getMapCentrePoint(
   id: string,
   mapType: string,
   var1: string,

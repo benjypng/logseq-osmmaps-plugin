@@ -1,8 +1,9 @@
 import "@logseq/libs";
-import addElement from "./addElementToDom";
 import generateUniqueId from "./utils/uniqueId";
-import getCoordsWithoutRoutes from "./getCoordsWithoutRoutes";
 import callSettings from "./utils/callSettings";
+import getCoordsWithRoutes from "./getCoordsWithRoutes";
+import getMapCentrePoint from "./getMapCentrePoint";
+import addElement from "./utils/addElementToDom";
 
 function main() {
   console.log("logseq-maps-plugin loaded");
@@ -36,8 +37,9 @@ function main() {
     const id = type.split("_")[1]?.trim();
 
     if (type.startsWith(":map_")) {
-      getCoordsWithoutRoutes(id, mapType, var1, var2);
+      getMapCentrePoint(id, mapType, var1, var2);
     } else if (type.startsWith("Lmap-routes_")) {
+      getCoordsWithRoutes(id, mapType, var1, var2);
     }
   });
 }

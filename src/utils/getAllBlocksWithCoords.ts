@@ -7,14 +7,17 @@ export default async function getAllBlocksWithCoords(uuid: string) {
 
   async function recursiveFind(pbt: BlockEntity[]) {
     for (let i = 0; i < pbt.length; i++) {
+      // Find blocks with coords property
       if (pbt[i].properties!.coords) {
         allCoordsBlocksOnPage.push({
           uuid: pbt[i].uuid,
           content: pbt[i].content.split("\ncoords")[0],
           coords: handleCoordsOrUrl(pbt[i].properties!.coords),
+          waypoint: pbt[i].properties!.waypoint,
         });
       }
 
+      // Parse query results
       if (pbt[i].content.startsWith("{{query ")) {
         const tag = pbt[i].content.split("[[")[1].split("]]")[0];
         let queryResult = await logseq.DB.datascriptQuery(`
@@ -29,6 +32,7 @@ export default async function getAllBlocksWithCoords(uuid: string) {
             uuid: r[0].uuid,
             content: r[0].content.split("\ncoords")[0],
             coords: handleCoordsOrUrl(r[0].properties.coords),
+            waypoint: r[0].properties.waypoint,
           });
         }
       }
