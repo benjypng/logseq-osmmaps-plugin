@@ -1,9 +1,15 @@
 import { LatLngTuple } from "leaflet";
 import axios from "axios";
 import renderLeaflet from "./renderLeaflet";
+import generateUniqueId from "./utils/uniqueId";
 
 export default function renderMapWithoutRoutes(id: string) {
   logseq.App.onMacroRendererSlotted(async function ({ payload }) {
+    const mapElem = top?.document.getElementById(`map-${id}`);
+    if (mapElem) {
+      mapElem.remove();
+    }
+
     const [type, mapType, var1, var2] = payload.arguments;
     if (!type.startsWith(":map_")) return;
 
