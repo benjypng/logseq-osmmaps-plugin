@@ -1,19 +1,5 @@
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
-
-function handleCoordsOrUrl(str: any) {
-  if (str.startsWith("https://www.google.com/")) {
-    const lat = str.split("@")[1].split(",")[0];
-    const lng = str.split("@")[1].split(",")[1].split(",")[0];
-    return [lat, lng];
-  } else {
-    return str
-      .replaceAll("\u00B0", "")
-      .replaceAll("N", "")
-      .replaceAll("E", "")
-      .trim()
-      .split(",");
-  }
-}
+import handleCoordsOrUrl from "./handleCoordsOrUrl";
 
 export default async function getAllBlocksWithCoords(uuid: string) {
   const blk = await logseq.Editor.getBlock(uuid);

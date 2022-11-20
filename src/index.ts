@@ -2,9 +2,12 @@ import "@logseq/libs";
 import addElement from "./addElementToDom";
 import generateUniqueId from "./utils/uniqueId";
 import getCoordsWithoutRoutes from "./getCoordsWithoutRoutes";
+import callSettings from "./utils/callSettings";
 
 function main() {
   console.log("logseq-maps-plugin loaded");
+
+  callSettings();
 
   // Add Leaflet CSS
   addElement("css", "https://unpkg.com/leaflet@1.9.3/dist/leaflet.css");
