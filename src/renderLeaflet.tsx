@@ -49,7 +49,7 @@ export default function renderLeaflet(
       // Timeout needed as due to asynchronous loading of map + markers
       window.setTimeout(() => {
         this.render();
-      }, 100);
+      }, 250);
     }
 
     get uuid() {

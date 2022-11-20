@@ -1,5 +1,20 @@
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 
+function handleCoordsOrUrl(str: any) {
+  if (str.startsWith("https://www.google.com/")) {
+    const lat = str.split("@")[1].split(",")[0];
+    const lng = str.split("@")[1].split(",")[1].split(",")[0];
+    return [lat, lng];
+  } else {
+    return str
+      .replaceAll("\u00B0", "")
+      .replaceAll("N", "")
+      .replaceAll("E", "")
+      .trim()
+      .split(",");
+  }
+}
+
 export default async function getAllBlocksWithCoords(uuid: string) {
   const blk = await logseq.Editor.getBlock(uuid);
   let allCoordsBlocksOnPage: any[] = [];
@@ -10,12 +25,7 @@ export default async function getAllBlocksWithCoords(uuid: string) {
         allCoordsBlocksOnPage.push({
           uuid: pbt[i].uuid,
           content: pbt[i].content.split("\ncoords")[0],
-          coords: pbt[i]
-            .properties!.coords.replaceAll("\u00B0", "")
-            .replaceAll("N", "")
-            .replaceAll("E", "")
-            .trim()
-            .split(","),
+          coords: handleCoordsOrUrl(pbt[i].properties!.coords),
         });
       }
       if (pbt[i].children) {
