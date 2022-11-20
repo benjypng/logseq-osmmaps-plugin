@@ -37,6 +37,7 @@ function main() {
 
     if (type.startsWith(":map_")) {
       getCoordsWithoutRoutes(id, mapType, var1, var2);
+    } else if (type.startsWith("Lmap-routes_")) {
     }
   });
 }

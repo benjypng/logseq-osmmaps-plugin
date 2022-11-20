@@ -61,27 +61,35 @@ export default function renderLeaflet(
     }
 
     async render() {
-      //@ts-expect-error
-      map = top?.L.map(this).setView(coords, 12);
+      // Check if first element in array is a string or an array
+      // If it is a number, means that it is without routes
+      // If it is an array, means that it is with routes
+      if (typeof coords[0] === "number") {
+        //@ts-expect-error
+        map = top?.L.map(this).setView(coords, 12);
 
-      // IF NO ROUTES
-      drawTilesWithoutRoutes(map, mapType);
+        // IF NO ROUTES
+        drawTilesWithoutRoutes(map, mapType);
 
-      const allBlocksWithCoords = await getAllBlocksWithCoords(this.uuid);
+        const allBlocksWithCoords = await getAllBlocksWithCoords(this.uuid);
 
-      // Create feature group so as to set fitBounds later
-      //@ts-expect-error
-      const fg = top?.L.featureGroup().addTo(map);
-      if (allBlocksWithCoords) {
-        for (let i = 0; i < allBlocksWithCoords.length; i++) {
-          const coords = allBlocksWithCoords[i].coords;
-          const content = allBlocksWithCoords[i].content;
-          //@ts-expect-error
-          top?.L.marker(coords).addTo(fg).bindPopup(content);
+        // Create feature group so as to set fitBounds later
+        //@ts-expect-error
+        const fg = top?.L.featureGroup().addTo(map);
+        if (allBlocksWithCoords) {
+          for (let i = 0; i < allBlocksWithCoords.length; i++) {
+            const coords = allBlocksWithCoords[i].coords;
+            const content = allBlocksWithCoords[i].content;
+            //@ts-expect-error
+            top?.L.marker(coords).addTo(fg).bindPopup(content);
+          }
         }
+        // Fitbounds to all created markers
+        map.fitBounds(fg.getBounds());
+      } else {
+        //@ts-expect-error
+        map = top?.L.map(this).setView(coords[0], 12);
       }
-      // Fitbounds to all created markers
-      map.fitBounds(fg.getBounds());
 
       // Currently not needed
       //top?.document.addEventListener(
