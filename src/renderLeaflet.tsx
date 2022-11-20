@@ -1,14 +1,20 @@
 import { LatLngTuple } from "leaflet";
 import drawTilesWithoutRoutes from "../withoutRoutes";
+import addElement from "./addElementToDom";
 import createRefreshBtn from "./utils/createRefreshBtn";
 import getAllBlocksWithCoords from "./utils/getAllBlocksWithCoords";
+
+declare global {
+  interface Window {
+    HTMLDivElement: any;
+  }
+}
 
 export default function renderLeaflet(
   id: string,
   mapType: string,
   coords: LatLngTuple | LatLngTuple[]
 ) {
-  //@ts-expect-error
   const HTMLDivEl = top?.HTMLDivElement;
   let map: any;
 
@@ -37,11 +43,13 @@ export default function renderLeaflet(
         map.remove();
         this.render();
       };
-
       // Create refresh button
       createRefreshBtn(id, refreshMap);
 
-      this.render();
+      // Timeout needed as due to asynchronous loading of map + markers
+      window.setTimeout(() => {
+        this.render();
+      }, 100);
     }
 
     get uuid() {
@@ -89,8 +97,17 @@ export default function renderLeaflet(
     }
   }
 
-  //@ts-expect-error
-  top?.customElements.define(`map-${id}`, LeafletMap, {
-    extends: "div",
-  });
+  if (!top?.customElements.get(`map-${id}`)) {
+    // Add Leaflet JS
+    addElement("script", "https://unpkg.com/leaflet@1.9.3/dist/leaflet.js");
+    addElement(
+      "script",
+      "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"
+    );
+
+    //@ts-expect-error
+    top?.customElements.define(`map-${id}`, LeafletMap, {
+      extends: "div",
+    });
+  }
 }

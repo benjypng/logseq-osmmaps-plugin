@@ -1,9 +1,7 @@
 import "@logseq/libs";
 import addElement from "./addElementToDom";
-import renderMapWithoutRoutes from "./mapWithoutRoutes";
-import renderMapWithRoutes from "./mapWithRoutes";
-import callSettings from "./utils/callSettings";
 import generateUniqueId from "./utils/uniqueId";
+import getCoordsWithoutRoutes from "./getCoordsWithoutRoutes";
 
 function main() {
   console.log("logseq-maps-plugin loaded");
@@ -14,30 +12,29 @@ function main() {
     "css",
     "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
   );
-  // Add Leaflet JS
-  addElement("script", "https://unpkg.com/leaflet@1.9.3/dist/leaflet.js");
-  addElement(
-    "script",
-    "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"
-  );
-  // Call settings page
-  callSettings();
 
-  logseq.Editor.registerSlashCommand("Add map", async function () {
+  logseq.Editor.registerSlashCommand("add map", async () => {
     const id = generateUniqueId();
     await logseq.Editor.insertAtEditingCursor(
-      `{{renderer :map_${id}, default, Singapore}} [:div {:is map-${id}}]`
+      `{{renderer :map_${id}, default, Singapore}} [:div {:is "map-${id}"}]`
     );
-
-    renderMapWithoutRoutes(id);
   });
 
-  logseq.Editor.registerSlashCommand("Add map with routes", async function () {
+  logseq.Editor.registerSlashCommand("add map with routes", async () => {
     const id = generateUniqueId();
     await logseq.Editor.insertAtEditingCursor(
-      `{{renderer :map-routes_${id}, default, Manchester Airport, Old Trafford}}`
+      `{{renderer :map-routes_${id}, default, Manchester Airport, Old Trafford}} [:div {:is "map-routes-${id}"}]`
     );
-    renderMapWithRoutes(id);
+  });
+
+  logseq.App.onMacroRendererSlotted(async ({ payload }) => {
+    const [type, mapType, var1, var2, var3, var4] = payload.arguments;
+    if (!type.startsWith(":map_") && !type.startsWith(":map-routes_")) return;
+    const id = type.split("_")[1]?.trim();
+
+    if (type.startsWith(":map_")) {
+      getCoordsWithoutRoutes(id, mapType, var1, var2);
+    }
   });
 }
 
