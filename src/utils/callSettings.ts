@@ -14,8 +14,26 @@ export default function callSettings() {
       type: "string",
       title: "ThunderForest API",
       description:
-        "Key in your ThunderForest API for cycling and hiking maps. Go to www.thunderforest.com to obtain your API.",
+        "Key in your ThunderForest API for cycling and hiking maps. Go to www.thunderforest.com to obtain your access token.",
       default: "12345567891AbsbdA",
+    },
+    {
+      key: "bingApi",
+      type: "string",
+      title: "Bing Maps API",
+      description:
+        "Key in your Bing Maps API for a different tile layer. Go to www.bingmapsportal.com to get your access token.",
+      default: "12345dskjhfjk09283",
+    },
+    {
+      key: "tileLayer",
+      type: "enum",
+      enumPicker: "select",
+      enumChoices: ["OSM", "Bing Maps"],
+      title: "Tile Layer",
+      description:
+        "If you have indicated a Bing Map API, you have the option of choosing it instead of the default Open Street Maps option.",
+      default: "OSM",
     },
     {
       key: "mapboxApi",

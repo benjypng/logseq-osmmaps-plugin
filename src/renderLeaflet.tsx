@@ -1,5 +1,5 @@
 import { LatLngTuple } from "leaflet";
-import drawTilesWithoutRoutes from "../withoutRoutes";
+import drawTiles from "./services/drawTiles";
 import insertWaypoints from "./services/insertWaypoints";
 import addElement from "./utils/addElementToDom";
 import createRefreshBtn from "./utils/createRefreshBtn";
@@ -69,8 +69,8 @@ export default function renderLeaflet(
         //@ts-expect-error
         map = top?.L.map(this).setView(coords, 12);
 
-        // IF NO ROUTES
-        drawTilesWithoutRoutes(map, mapType);
+        // Draw tiles based on user input in renderer
+        drawTiles(map, mapType);
 
         const allBlocksWithCoords = await getAllBlocksWithCoords(this.uuid);
 
