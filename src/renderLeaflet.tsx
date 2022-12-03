@@ -1,9 +1,8 @@
-import { LatLngTuple } from "leaflet";
-import drawTiles from "./services/drawTiles";
-import insertWaypoints from "./services/insertWaypoints";
-import addElement from "./utils/addElementToDom";
-import createRefreshBtn from "./utils/createRefreshBtn";
-import getAllBlocksWithCoords from "./utils/getAllBlocksWithCoords";
+import { LatLngTuple } from 'leaflet';
+import drawTiles from './services/drawTiles';
+import insertWaypoints from './services/insertWaypoints';
+import createRefreshBtn from './utils/createRefreshBtn';
+import getAllBlocksWithCoords from './utils/getAllBlocksWithCoords';
 
 declare global {
   interface Window {
@@ -12,6 +11,7 @@ declare global {
 }
 
 export default function renderLeaflet(
+  uuid: string,
   id: string,
   mapType: string,
   coords: LatLngTuple | LatLngTuple[]
@@ -23,18 +23,14 @@ export default function renderLeaflet(
     constructor() {
       super();
       // Set height and position of map
-      this.style.position = "relative";
-      this.style.height = "500px";
+      this.style.position = 'relative';
+      this.style.height = '500px';
       this.id = `map-${id}`;
-    }
-
-    static get observedAttributes() {
-      return ["data-uuid"];
     }
 
     async connectedCallback() {
       // Set event listener to prevent clickthrough on map
-      this.addEventListener("mousedown", function (e: any) {
+      this.addEventListener('mousedown', function (e: any) {
         e.stopPropagation();
         e.preventDefault();
       });
@@ -50,29 +46,21 @@ export default function renderLeaflet(
       // Timeout needed as due to asynchronous loading of map + markers
       window.setTimeout(() => {
         this.render();
-      }, 250);
-    }
-
-    get uuid() {
-      return (
-        this.getAttribute("data-uuid") ||
-        this.closest('div[id^="block-content"]')?.getAttribute("blockid") ||
-        ""
-      );
+      }, 500);
     }
 
     async render() {
       // Check if first element in array is a string or an array
       // If it is a number, means that it is without routes
       // If it is an array, means that it is with routes
-      if (typeof coords[0] === "number") {
+      if (typeof coords[0] === 'number') {
         //@ts-expect-error
         map = top?.L.map(this).setView(coords, 12);
 
         // Draw tiles based on user input in renderer
         drawTiles(map, mapType);
 
-        const allBlocksWithCoords = await getAllBlocksWithCoords(this.uuid);
+        const allBlocksWithCoords = await getAllBlocksWithCoords(uuid);
 
         // Add waypoints if they can be found in allBlocksWithCoords
         insertWaypoints(allBlocksWithCoords, map);
@@ -80,6 +68,7 @@ export default function renderLeaflet(
         // Create feature group so as to set fitBounds later
         //@ts-expect-error
         const fg = top?.L.featureGroup().addTo(map);
+
         if (allBlocksWithCoords) {
           for (let i = 0; i < allBlocksWithCoords.length; i++) {
             const coords = allBlocksWithCoords[i].coords;
@@ -89,7 +78,8 @@ export default function renderLeaflet(
           }
         }
         // Fitbounds to all created markers
-        map.fitBounds(fg.getBounds());
+        const bounds = fg.getBounds();
+        if (Object.keys(bounds).length !== 0) map.fitBounds(fg.getBounds());
       } else {
         //@ts-expect-error
         map = top?.L.map(this).setView(coords[0], 12);
@@ -110,16 +100,9 @@ export default function renderLeaflet(
   }
 
   if (!top?.customElements.get(`map-${id}`)) {
-    // Add Leaflet JS
-    addElement("script", "https://unpkg.com/leaflet@1.9.3/dist/leaflet.js");
-    addElement(
-      "script",
-      "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"
-    );
-
     //@ts-expect-error
     top?.customElements.define(`map-${id}`, LeafletMap, {
-      extends: "div",
+      extends: 'div',
     });
   }
 }
