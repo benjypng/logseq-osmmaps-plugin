@@ -1,96 +1,67 @@
-[[:gift_heart: Sponsor this project on Github](https://github.com/sponsors/hkgnp) or [:coffee: Get me a coffee](https://www.buymeacoffee.com/hkgnp.dev) if you like this plugin!
+[:gift_heart: Sponsor this project on Github](https://github.com/sponsors/hkgnp) or [:coffee: Get me a coffee](https://www.buymeacoffee.com/hkgnp.dev) if you like this plugin!
 
 # Overview
 
-This plugin lets you create a map and plot a marker on a specific spot. A possible use case is to perhaps journal an event that happened somewhere memorable.
+This plugin looks for coordinates or Google Maps links on your page and plots them as markers on a map. You may use it to journal an event, or record down something memorable that happened there.
 
 # Usage
 
-## Marker on Map
+## Step 1
 
-1. Type `/add map` on any block.
-2. A renderer line will appear that looks something like this: `{{renderer :map_rxbtanqd, Singapore}} [:div {:is "map-rxbtanqd"}]`.
-3. Replace `Singapore` with either:
-
-- An address or place
-- Latitude and longitude pair
-
-4. Go to the end of the line and hit enter, and a marker will appear on the above designated place.
-
-![](/screenshots/demo.gif)
+Decide on a centerpoint where your markers are likely to be around, and the type of map that you would like to draw. After doing so, start by typing `/Add map` to trigger the below renderer. Depending on the centerpoint and the type of map, you can make changes to the flags. Some examples can be found below:
 
 ```
-Examples
+{{renderer :map_hkuudwvv, default, Singapore}} [:div {:is "map-hkuudwvv"}]
 
-By place:
-{{renderer :map_rxbtanqd, Singapore}} [:div {:is "map-rxbtanqd"}]
-{{renderer :map_rxbtanqd, Shanghai China}} [:div {:is "map-rxbtanqd"}]
-{{renderer :map_rxbtanqd, 1600 Pennsylvania Avenue NW}} [:div {:is "map-rxbtanqd"}]
+{{renderer :map_hkuudwvv, cycling, Tokyo}} [:div {:is "map-hkuudwvv"}]
 
-By latitude and logitude:
-{{renderer :map_rxbtanqd, 1.3521, 103.8198}} [:div {:is "map-rxbtanqd"}] //Singapore
-{{renderer :map_rxbtanqd, 37.77, -122.43}} [:div {:is "map-rxbtanqd"}] //San Francisco
+{{renderer :map_hkuudwvv, hiking, San Francisco}} [:div {:is "map-hkuudwvv"}]
 ```
 
-### Setting Default Zoom (does not apply to routes function)
+## Step 2
 
-In the plugin settings, copy and paste the code below, and just the setting accordingly.
-
-```
-{
-    "defaultZoom": 12
-}
-```
-
-## Map Routes
-
-1. Type `/add map with routes` on any block.
-2. A renderer line will appear that looks something like this: `{{renderer :map-routes_${id}, default, Manchester Airport, Old Trafford}} [:div {:is "map-routes-${id}"}]`.
-3. Keep `default` or replace with either of the below (note that if you would like to use the below routes, you will need to get additional API keys from ThunderForest and Mapbox. Instructions for this are in the [below section](https://github.com/hkgnp/logseq-osmmaps-plugin#api-keys)):
-
-- cycling (to get cycling routes)
-- hiking (to get hiking routes)
-
-4. Replace `Manchester Airport` and `Old Trafford` with either:
-
-- An address or place
-- Latitude and longitude pair
-
-5. Go to the end of the line and hit enter, and a marker will appear on the above designated place.
-
-![](/screenshots/demo2.gif)
+A map will be drawn on the page. You can then continue to create markers. The plugin looks for block properties `coords` and `waypoint`, where the latter is for creating routes (see below). For `coords`, you can either enter the latitude and longitude of the place in the formats below, or simply attach a Google Maps link. An example of such a block would be:
 
 ```
-Examples
+Jurong Bird Park
+coords:: 1.3187° N, 103.7064° E
 
-By place:
-{{renderer :map-routes_rxbtanqd, Manchester Airport, Old Trafford}} [:div {:is "map-routes-rxbtanqd"}]
-{{renderer :map-routes_rxbtanqd, 1600 Pennsylvania Avenue NW, 801 Wharf St SW}} [:div {:is "map-routes-rxbtanqd"}]
+Jurong Bird Park
+coords:: 1.3187, 103.7064
 
-By latitude and logitude:
-{{renderer :map-routes_rxbtanqd, 57.74, 11.94, 57.6792, 11.949}} [:div {:is "map-routes-rxbtanqd"}]
+Jurong Bird Park
+coords:: https://www.google.com/maps/place/Jurong+Bird+Park/@1.3190699,103.7043014,17z
 ```
 
-### API keys
+## Step 3
 
-Mapbox:
+When finished, click `Refresh` on the top right hand corner of the map, and your markers will be placed on it.
+
+## Step 4
+
+If you want to include routing instructions, you can add a `waypoint` property. First stop would be `waypoint:: 1`, second stop would be `waypoint:: 2` and so on. See below for an example:
+
+```
+Jurong Bird Park
+coords:: 1.3187° N, 103.7064° E
+waypoint:: 1
+
+Changi Airport
+coords:: 1.3644° N, 103.9915° E
+waypoint:: 2
+```
+
+Click on `Refresh` on the top right hand corner of the map to display the routing instructions.
+
+# API keys
+
+### Mapbox:
 
 Mapbox API keys are for obtaining the cycling and walking directions. Go to [their website](https://www.mapbox.com/) and sign up for a free account. Create a new access token and note down the generated Access Token somewhere.
 
-Thunderforest:
+### Thunderforest:
 
 Thunderforest API keys are for providing cycling and hiking maps. Go to [their website](https://www.thunderforest.com/) and sign up for a free account. Upon logging in, your API key is immediately available.
-
-Instructions:
-
-In the settings of the plugin (tiny gear icon), copy and paste the following code and edit in your API keys/tokens accordingly. After saving the file, please ensure that you restart Logeq for the settings to take effect.
-
-```
-{
-    "thunderForestApi": "1239adkfjksda23412j31kjasd",
-    "mapboxApi": "klj123kjasfkjh23j12k4kjsad"
-}
-```
 
 # Important Notes
 
