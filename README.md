@@ -4,7 +4,7 @@
 
 This plugin looks for coordinates or Google Maps links on your page and plots them as markers on a map. You may use it to journal an event, or record down something memorable that happened there.
 
-![](./screenshots/demo.gif
+![](screenshots/demo.gif)
 
 # Usage
 
