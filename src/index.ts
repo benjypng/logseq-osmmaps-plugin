@@ -35,10 +35,9 @@ function main() {
     const uuid = payload.uuid;
     if (!type.startsWith(":map_")) return;
     const id = type.split("_")[1]?.trim();
-    const mapId = `map_${id}_${slot}`;
 
     if (type.startsWith(":map_")) {
-      getMapCentrePoint(uuid, mapId, mapType, var1, var2);
+      getMapCentrePoint(slot, uuid, id, mapType, var1, var2);
     }
   });
 }

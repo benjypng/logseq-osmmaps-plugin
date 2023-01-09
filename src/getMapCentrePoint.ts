@@ -1,8 +1,9 @@
-import { LatLngTuple } from 'leaflet';
-import axios from 'axios';
-import renderLeaflet from './renderLeaflet';
+import { LatLngTuple } from "leaflet";
+import axios from "axios";
+import renderLeaflet from "./renderLeaflet";
 
 export default async function getMapCentrePoint(
+  slot: string,
   uuid: string,
   id: string,
   mapType: string,
@@ -12,11 +13,11 @@ export default async function getMapCentrePoint(
   // Location
   if (var1 && !var2) {
     const response = await axios({
-      method: 'get',
+      method: "get",
       url: `   https://nominatim.openstreetmap.org/`,
       params: {
         q: var1,
-        format: 'json',
+        format: "json",
         limit: 1,
       },
     });
@@ -26,16 +27,16 @@ export default async function getMapCentrePoint(
       parseFloat(response.data[0].lon),
     ];
 
-    renderLeaflet(uuid, id, mapType, coords);
+    renderLeaflet(slot, uuid, id, mapType, coords);
   } else if (var1 && var2) {
     // Coords
     const coords: LatLngTuple = [parseFloat(var1), parseFloat(var2)];
 
-    renderLeaflet(uuid, id, mapType, coords);
+    renderLeaflet(slot, uuid, id, mapType, coords);
   } else {
     logseq.UI.showMsg(
-      'Please ensure that you either enter a location or a set of coordinates',
-      'error'
+      "Please ensure that you either enter a location or a set of coordinates",
+      "error"
     );
   }
 }

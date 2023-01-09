@@ -1,8 +1,8 @@
-import { LatLngTuple } from 'leaflet';
-import drawTiles from './services/drawTiles';
-import insertWaypoints from './services/insertWaypoints';
-import createRefreshBtn from './utils/createRefreshBtn';
-import getAllBlocksWithCoords from './utils/getAllBlocksWithCoords';
+import { LatLngTuple } from "leaflet";
+import drawTiles from "./services/drawTiles";
+import insertWaypoints from "./services/insertWaypoints";
+import createRefreshBtn from "./utils/createRefreshBtn";
+import getAllBlocksWithCoords from "./utils/getAllBlocksWithCoords";
 
 declare global {
   interface Window {
@@ -11,6 +11,7 @@ declare global {
 }
 
 export default function renderLeaflet(
+  slot: string,
   uuid: string,
   id: string,
   mapType: string,
@@ -23,14 +24,15 @@ export default function renderLeaflet(
     constructor() {
       super();
       // Set height and position of map
-      this.style.position = 'relative';
-      this.style.height = '500px';
+      this.style.position = "relative";
+      this.style.height = "500px";
       this.id = `map-${id}`;
+      this.setAttribute("data-slot-id", slot);
     }
 
     async connectedCallback() {
       // Set event listener to prevent clickthrough on map
-      this.addEventListener('mousedown', function (e: any) {
+      this.addEventListener("mousedown", function (e: any) {
         e.stopPropagation();
         e.preventDefault();
       });
@@ -53,7 +55,7 @@ export default function renderLeaflet(
       // Check if first element in array is a string or an array
       // If it is a number, means that it is without routes
       // If it is an array, means that it is with routes
-      if (typeof coords[0] === 'number') {
+      if (typeof coords[0] === "number") {
         //@ts-expect-error
         map = top?.L.map(this).setView(coords, 12);
 
@@ -102,7 +104,7 @@ export default function renderLeaflet(
   if (!top?.customElements.get(`map-${id}`)) {
     //@ts-expect-error
     top?.customElements.define(`map-${id}`, LeafletMap, {
-      extends: 'div',
+      extends: "div",
     });
   }
 }
