@@ -1,3 +1,4 @@
+import "@logseq/libs";
 import { LatLngTuple } from "leaflet";
 import axios from "axios";
 import renderLeaflet from "./renderLeaflet";

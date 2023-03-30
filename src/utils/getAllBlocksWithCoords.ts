@@ -8,7 +8,7 @@ export default async function getAllBlocksWithCoords(uuid: string) {
   async function recursiveFind(pbt: BlockEntity[], pageName: string) {
     for (let i = 0; i < pbt.length; i++) {
       // Find blocks with coords property
-      if (pbt[i].properties!.coords) {
+      if (pbt[i].properties!?.coords) {
         allCoordsBlocksOnPage.push({
           uuid: pbt[i].uuid,
           content: pbt[i].content.split("\ncoords")[0],
