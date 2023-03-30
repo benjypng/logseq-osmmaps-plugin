@@ -5,7 +5,7 @@ export default async function getAllBlocksWithCoords(uuid: string) {
   const blk = await logseq.Editor.getBlock(uuid);
   let allCoordsBlocksOnPage: any[] = [];
 
-  async function recursiveFind(pbt: BlockEntity[]) {
+  async function recursiveFind(pbt: BlockEntity[], pageName: string) {
     for (let i = 0; i < pbt.length; i++) {
       // Find blocks with coords property
       if (pbt[i].properties!.coords) {
@@ -14,6 +14,7 @@ export default async function getAllBlocksWithCoords(uuid: string) {
           content: pbt[i].content.split("\ncoords")[0],
           coords: handleCoordsOrUrl(pbt[i].properties!.coords),
           waypoint: pbt[i].properties!.waypoint,
+          pageName: pageName,
         });
       }
 
@@ -33,12 +34,13 @@ export default async function getAllBlocksWithCoords(uuid: string) {
             content: r[0].content.split("\ncoords")[0],
             coords: handleCoordsOrUrl(r[0].properties.coords),
             waypoint: r[0].properties.waypoint,
+            pageName: pageName,
           });
         }
       }
 
       if (pbt[i].children) {
-        recursiveFind(pbt[i].children as BlockEntity[]);
+        recursiveFind(pbt[i].children as BlockEntity[], pageName);
       } else {
       }
     }
@@ -48,7 +50,7 @@ export default async function getAllBlocksWithCoords(uuid: string) {
     const page = await logseq.Editor.getPage(blk.page.id);
     if (page) {
       const pbt = await logseq.Editor.getPageBlocksTree(page.name);
-      await recursiveFind(pbt);
+      await recursiveFind(pbt, page.name);
     }
   }
 

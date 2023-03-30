@@ -52,6 +52,11 @@ export default function renderLeaflet(
     }
 
     async render() {
+      // Used to refreshMap
+      const refreshMap = () => {
+        map.remove();
+        this.render();
+      };
       // Check if first element in array is a string or an array
       // If it is a number, means that it is without routes
       // If it is an array, means that it is with routes
@@ -75,8 +80,17 @@ export default function renderLeaflet(
           for (let i = 0; i < allBlocksWithCoords.length; i++) {
             const coords = allBlocksWithCoords[i].coords;
             const content = allBlocksWithCoords[i].content;
+
             //@ts-expect-error
-            top?.L.marker(coords).addTo(fg).bindPopup(content);
+            top?.L.marker(coords)
+              .addTo(fg)
+              .on("click", function () {
+                logseq.Editor.scrollToBlockInPage(
+                  allBlocksWithCoords[i].pageName,
+                  allBlocksWithCoords[i].uuid
+                );
+              })
+              .bindPopup(content);
           }
         }
         // Fitbounds to all created markers
@@ -88,16 +102,25 @@ export default function renderLeaflet(
       }
 
       // Currently not needed
-      //top?.document.addEventListener(
-      //  "contextmenu",
-      //  function (e) {
-      //    e.preventDefault();
-      //    e.stopPropagation();
-      //  },
-      //  false
-      //);
+      map.on(
+        "contextmenu",
+        async function (e) {
+          let latlng = map.mouseEventToLatLng(e.originalEvent);
 
-      // IF ROUTES
+          //@ts-expect-error
+          top?.L.marker([parseFloat(latlng.lat), parseFloat(latlng.lng)]).addTo(
+            map
+          );
+
+          await logseq.Editor.insertBlock(
+            uuid,
+            `
+coords:: ${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)}`,
+            { sibling: true, before: false }
+          );
+        },
+        false
+      );
     }
   }
 

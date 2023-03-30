@@ -23,7 +23,7 @@ function main() {
     "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"
   );
 
-  logseq.Editor.registerSlashCommand("add map", async () => {
+  logseq.Editor.registerSlashCommand("Add map", async () => {
     const id = generateUniqueId();
     await logseq.Editor.insertAtEditingCursor(
       `{{renderer :map_${id}, default, Singapore}} [:div {:is "map-${id}"}]`

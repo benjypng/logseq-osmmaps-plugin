@@ -22,7 +22,9 @@ Decide on a centerpoint where your markers are likely to be around, and the type
 
 ## Step 2
 
-A map will be drawn on the page. You can then continue to create markers. The plugin looks for block properties `coords` and `waypoint`, where the latter is for creating routes (see below). For `coords`, you can either enter the latitude and longitude of the place in the formats below, or simply attach a Google Maps link. An example of such a block would be:
+A map will be drawn on the page. You can then continue to create markers. The plugin looks for block properties `coords` and `waypoint`, where the latter is for creating routes (see below). For `coords`, you can either enter the latitude and longitude of the place in the formats below, or simply attach a Google Maps link. Clicking on the marker will bring you to the corresponding block.
+
+An example of such a block would be:
 
 ```
 Jurong Bird Park
@@ -34,6 +36,18 @@ coords:: 1.3187, 103.7064
 Jurong Bird Park
 coords:: https://www.google.com/maps/place/Jurong+Bird+Park/@1.3190699,103.7043014,17z
 ```
+
+## Step 2A: Using Queries
+
+You can also use queries to create markers. Simply add in the following below the map and click the `Refresh` button.
+
+```
+{{query (property :tags "france trip")}}
+```
+
+## Step 2B: Right-clicking on Map
+
+When right-clicking on the map, you can automatically create a marker, and a new block will be inserted on the page with the coordinates you just created. You can simply add in the name of the location and click the `Refresh` button to update your marker.
 
 ## Step 3
 
