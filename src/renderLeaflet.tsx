@@ -26,6 +26,7 @@ export default function renderLeaflet(
       // Set height and position of map
       this.style.position = "relative";
       this.style.height = "500px";
+      this.style.zIndex = 0;
       this.id = `map-${id}`;
       this.setAttribute("data-slot-id", slot);
     }
@@ -52,11 +53,6 @@ export default function renderLeaflet(
     }
 
     async render() {
-      // Used to refreshMap
-      const refreshMap = () => {
-        map.remove();
-        this.render();
-      };
       // Check if first element in array is a string or an array
       // If it is a number, means that it is without routes
       // If it is an array, means that it is with routes
@@ -101,7 +97,7 @@ export default function renderLeaflet(
         map = top?.L.map(this).setView(coords[0], 12);
       }
 
-      // Currently not needed
+      // Right click to insert marker
       map.on(
         "contextmenu",
         async function (e) {
