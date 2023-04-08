@@ -6,6 +6,8 @@ This plugin looks for coordinates or Google Maps links on your page and plots th
 
 ![](screenshots/demo.gif)
 
+![](screenshots/demo2.gif)
+
 # Usage
 
 ## Step 1
@@ -48,6 +50,10 @@ You can also use queries to create markers. Simply add in the following below th
 ## Step 2B: Right-clicking on Map
 
 When right-clicking on the map, you can automatically create a marker, and a new block will be inserted on the page with the coordinates you just created. You can simply add in the name of the location and click the `Refresh` button to update your marker.
+
+## Step 2C: Search Locations
+
+Use `/Get coordinates from location` and key in the location that you would like to search for. Be as specific as possible. Press `Enter` and your location will be added as a block.
 
 ## Step 3
 
