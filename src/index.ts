@@ -13,17 +13,14 @@ function main() {
 
   // Add Leaflet CSS
   if (!top!.document.querySelector('script[src*="leaflet"]')) {
-    addElement("css", "https://unpkg.com/leaflet@1.9.3/dist/leaflet.css");
-    addElement(
-      "css",
-      "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"
-    );
+    addElement("css", `${logseq.baseInfo.lsr}dist/leaflet.css`);
+    addElement("css", `${logseq.baseInfo.lsr}dist/leaflet-routing-machine.css`);
 
     // Add Leaflet JS
-    addElement("script", "https://unpkg.com/leaflet@1.9.3/dist/leaflet.js");
+    addElement("script", `${logseq.baseInfo.lsr}dist/leaflet.js`);
     addElement(
       "script",
-      "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"
+      `${logseq.baseInfo.lsr}dist/leaflet-routing-machine.js`
     );
   }
 
