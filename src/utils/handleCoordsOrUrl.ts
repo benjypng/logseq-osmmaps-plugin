@@ -3,6 +3,8 @@ export default function handleCoordsOrUrl(str: any) {
     const lat = str.split("@")[1].split(",")[0];
     const lng = str.split("@")[1].split(",")[1].split(",")[0];
     return [lat, lng];
+  } else if (str.startsWith("geo://")) {
+    return str.slice(6).split(",");
   } else {
     return str
       .replaceAll("\u00B0", "")
