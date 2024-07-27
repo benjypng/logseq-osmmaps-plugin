@@ -2,7 +2,7 @@ import '@logseq/libs'
 import '../../leaflet/leaflet.css'
 
 import { LatLngTuple } from 'leaflet'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   MapContainer,
   Marker,
@@ -10,6 +10,7 @@ import {
   TileLayer,
   useMapEvent,
 } from 'react-leaflet'
+import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 
 const SetViewOnClick = () => {
   const map = useMapEvent('click', (e) => {
@@ -27,7 +28,10 @@ const Map = ({
   centrePosition: LatLngTuple
   uuid: string
 }) => {
-  const [ready, setReady] = React.useState(false)
+  const [ready, setReady] = useState(false)
+  const [locations, setLocations] = useState<
+    { description: string; coords: LatLngTuple }[]
+  >([])
   const host = logseq.Experiments.ensureHostScope()
 
   useEffect(() => {
@@ -55,7 +59,25 @@ const Map = ({
     const block = await logseq.Editor.getBlock(uuid)
     if (!block) return
     const page = await logseq.Editor.getPage(block.page.id)
-    console.log(page)
+    if (!page) return
+    const pbt = await logseq.Editor.getPageBlocksTree(page.name)
+    setLocations(
+      pbt
+        .filter((block) => block.properties?.coords)
+        .map((block) => {
+          const description = block.content.substring(
+            0,
+            block.content.indexOf('\ncoords::'),
+          )
+          const coords = block.properties?.coords
+            .split(',')
+            .map((coord: string) => parseFloat(coord))
+          return {
+            description,
+            coords,
+          }
+        }),
+    )
   }
 
   return (
@@ -72,11 +94,11 @@ const Map = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={centrePosition}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {locations.map((location, index) => (
+          <Marker key={index} position={location.coords}>
+            <Popup>{location.description}</Popup>
+          </Marker>
+        ))}
         <SetViewOnClick />
       </MapContainer>
       <div className="map-control">
