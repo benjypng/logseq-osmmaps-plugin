@@ -1,15 +1,26 @@
-.map-refresh-btn {
-	padding: 0.2rem 0.5rem;
-	border: 1px solid;
-	border-radius: 8px;
-	background-color: #FFFFFF;
-}
-
 .map-control {
         z-index: 999;
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+
+.map-btn {
+	padding: 0.2rem 0.5rem;
+	border: 1px solid;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	color: #000000;
+}
+
+.map-btn:hover {
+	background-color: #EEEEEE;
+}
+
+.marker-icon {
+	display: flex;
+        align-items: center;
+        justify-content: center;
 }
 
 /* required styles */

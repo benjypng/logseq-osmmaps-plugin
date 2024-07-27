@@ -83,6 +83,21 @@ const Map = ({
     }
   }, [])
 
+  const svgIcon = (color: string) => {
+    console.log(color)
+    return host.L.divIcon({
+      html: `
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="${color}" class="icon icon-tabler icons-tabler-filled icon-tabler-map-pin">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" />
+</svg>
+  `,
+      className: 'marker-icon',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+    })
+  }
+
   if (!ready) {
     return <strong>Loading Leaflet...</strong>
   }
@@ -106,6 +121,7 @@ const Map = ({
             key={location.id}
             position={location.coords}
             ref={(el) => (markersRef.current[index] = el)}
+            icon={svgIcon(location['marker-color'])}
           >
             <Popup autoClose={false}>{location.description}</Popup>
           </Marker>
@@ -114,10 +130,10 @@ const Map = ({
         <FitBounds locations={locations} />
       </MapContainer>
       <div className="map-control">
-        <button className="map-refresh-btn" onClick={handlePopups}>
-          <i className="ti ti-map-pin"></i>
+        <button className="map-btn" onClick={handlePopups}>
+          <i className="ti ti-letter-case"></i>
         </button>
-        <button className="map-refresh-btn" onClick={refreshMap}>
+        <button className="map-btn" onClick={refreshMap}>
           <i className="ti ti-refresh"></i>
         </button>
       </div>

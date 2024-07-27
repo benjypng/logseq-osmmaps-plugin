@@ -4,6 +4,7 @@ export interface LocationProps {
   id: string
   description: string
   coords: LatLngTuple
+  'marker-color': string
 }
 
 export const getLocationsFromPage = async (
@@ -24,10 +25,12 @@ export const getLocationsFromPage = async (
       const coords = block.properties?.coords
         .split(',')
         .map((coord: string) => parseFloat(coord))
+      const markerColor = block.properties?.markerColor
       return {
         id: block.uuid,
         description,
         coords,
+        'marker-color': markerColor,
       }
     })
 }
