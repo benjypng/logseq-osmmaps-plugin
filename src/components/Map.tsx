@@ -9,6 +9,7 @@ import { LocationProps } from '../utils/get-locations-from-page'
 import { FitBounds } from './map-handlers/fit-bounds'
 import { SetViewOnClick } from './map-handlers/set-view-on-click'
 import MapControl from './MapControl'
+import SelectedTileLayer from './SelectedTileLayer'
 
 const Map = ({
   centrePosition,
@@ -21,6 +22,7 @@ const Map = ({
 }) => {
   const [ready, setReady] = useState(false)
   const [locations, setLocations] = useState<LocationProps[]>(locationsFromPage)
+  const [mapOption, setMapOption] = useState<string>('')
   const markersRef = useRef<(LeafletMarker | null)[]>([])
 
   const host = logseq.Experiments.ensureHostScope()
@@ -70,10 +72,7 @@ const Map = ({
         tap={true}
         style={{ height: '400px', width: '83vh', zIndex: 0 }}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <SelectedTileLayer mapOption={mapOption} />
         {locations.map((location, index) => (
           <Marker
             key={location.id}
@@ -88,6 +87,7 @@ const Map = ({
         <FitBounds locations={locations} />
       </MapContainer>
       <MapControl
+        setMapOption={setMapOption}
         markersRef={markersRef}
         setLocations={setLocations}
         uuid={uuid}

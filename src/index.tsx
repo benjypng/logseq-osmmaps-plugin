@@ -40,10 +40,6 @@ const main = async () => {
     setTimeout(() => {
       const el = parent.document.getElementById(mapId)
       if (!el || !el.isConnected) return
-      el.addEventListener('mousedown', (e: any) => {
-        e.stopPropagation()
-        e.preventDefault()
-      })
       const root = createRoot(el)
       root.render(
         <Map
