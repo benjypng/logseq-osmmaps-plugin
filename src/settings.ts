@@ -6,7 +6,7 @@ export const settings: SettingSchemaDesc[] = [
     type: 'number',
     title: 'Default Zoom',
     description: 'Sets default zoom level for maps',
-    default: 12,
+    default: 10,
   },
   {
     key: 'thunderForestApi',

@@ -2,7 +2,7 @@ import '@logseq/libs'
 import '../../leaflet/leaflet.css'
 
 import { LatLngTuple } from 'leaflet'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   MapContainer,
   Marker,
@@ -10,7 +10,10 @@ import {
   TileLayer,
   useMapEvent,
 } from 'react-leaflet'
-import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+import {
+  getLocationsFromPage,
+  LocationProps,
+} from '../utils/get-locations-from-page'
 
 const SetViewOnClick = () => {
   const map = useMapEvent('click', (e) => {
@@ -24,14 +27,14 @@ const SetViewOnClick = () => {
 const Map = ({
   centrePosition,
   uuid,
+  locationsFromPage,
 }: {
   centrePosition: LatLngTuple
   uuid: string
+  locationsFromPage: LocationProps[]
 }) => {
   const [ready, setReady] = useState(false)
-  const [locations, setLocations] = useState<
-    { description: string; coords: LatLngTuple }[]
-  >([])
+  const [locations, setLocations] = useState<LocationProps[]>(locationsFromPage)
   const host = logseq.Experiments.ensureHostScope()
 
   useEffect(() => {
@@ -56,35 +59,16 @@ const Map = ({
   }
 
   const refreshMap = async () => {
-    const block = await logseq.Editor.getBlock(uuid)
-    if (!block) return
-    const page = await logseq.Editor.getPage(block.page.id)
-    if (!page) return
-    const pbt = await logseq.Editor.getPageBlocksTree(page.name)
-    setLocations(
-      pbt
-        .filter((block) => block.properties?.coords)
-        .map((block) => {
-          const description = block.content.substring(
-            0,
-            block.content.indexOf('\ncoords::'),
-          )
-          const coords = block.properties?.coords
-            .split(',')
-            .map((coord: string) => parseFloat(coord))
-          return {
-            description,
-            coords,
-          }
-        }),
-    )
+    const locationsFromPage = await getLocationsFromPage(uuid)
+    if (!locationsFromPage) return
+    setLocations(locationsFromPage)
   }
 
   return (
     <>
       <MapContainer
         center={centrePosition}
-        zoom={13}
+        zoom={logseq.settings?.defaultZoom}
         scrollWheelZoom={false}
         dragging={true}
         tap={true}

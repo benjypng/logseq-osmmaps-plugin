@@ -6,6 +6,7 @@ import css from '../leaflet/leaflet.css?raw'
 import Map from './components/Map'
 import { settings } from './settings'
 import { getCentrePosition } from './utils/get-centre-position'
+import { getLocationsFromPage } from './utils/get-locations-from-page'
 
 const main = async () => {
   console.log('logseq-osmmaps-plugin loaded')
@@ -27,13 +28,14 @@ const main = async () => {
     const centrePosition = await getCentrePosition(var1, var2)
 
     const mapId = `map_${uuid}_${slot}`
-
     logseq.provideUI({
       key: mapId,
       slot,
       reset: true,
       template: `<div id="${mapId}"></div>`,
     })
+
+    const locationsFromPage = await getLocationsFromPage(uuid)
 
     setTimeout(() => {
       const el = parent.document.getElementById(mapId)
@@ -43,7 +45,13 @@ const main = async () => {
         e.preventDefault()
       })
       const root = createRoot(el)
-      root.render(<Map centrePosition={centrePosition} uuid={uuid} />)
+      root.render(
+        <Map
+          centrePosition={centrePosition}
+          uuid={uuid}
+          locationsFromPage={locationsFromPage}
+        />,
+      )
     }, 0)
   })
 
