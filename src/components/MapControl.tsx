@@ -53,10 +53,9 @@ const MapControl = ({
         {...register('mapOption')}
         disabled={false}
         className="map-select"
+        defaultValue={'default'}
       >
-        <option value="default" selected>
-          Default
-        </option>
+        <option value="default">Default</option>
         <option value="cycling">Cycling</option>
         <option value="hiking">Hiking</option>
       </select>

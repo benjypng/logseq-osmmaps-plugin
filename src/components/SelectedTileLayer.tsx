@@ -5,7 +5,7 @@ const SelectedTileLayer = ({ mapOption }: { mapOption: string }) => {
     case 'cycling':
       return (
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://www.thunderforest.com">ThunderForest</a>'
           url={`https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=${
             logseq.settings!.thunderForestApi
           }`}
@@ -14,7 +14,7 @@ const SelectedTileLayer = ({ mapOption }: { mapOption: string }) => {
     case 'hiking':
       return (
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://www.thunderforest.com/">ThunderForest</a> contributors'
           url={`https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=${
             logseq.settings!.thunderForestApi
           }`}
