@@ -8,8 +8,10 @@ import {
   Marker,
   Popup,
   TileLayer,
+  useMap,
   useMapEvent,
 } from 'react-leaflet'
+
 import {
   getLocationsFromPage,
   LocationProps,
@@ -21,6 +23,17 @@ const SetViewOnClick = () => {
       animate: true,
     })
   })
+  return null
+}
+
+const FitBounds = ({ locations }: { locations: LocationProps[] }) => {
+  const map = useMap()
+  useEffect(() => {
+    if (locations.length > 0) {
+      const bounds = locations.map((location) => location.coords)
+      map.fitBounds(bounds)
+    }
+  }, [map, locations])
   return null
 }
 
@@ -84,6 +97,7 @@ const Map = ({
           </Marker>
         ))}
         <SetViewOnClick />
+        <FitBounds locations={locations} />
       </MapContainer>
       <div className="map-control">
         <button className="map-refresh-btn" onClick={refreshMap}>
