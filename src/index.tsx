@@ -54,69 +54,6 @@ const main = async () => {
       )
     }, 0)
   })
-
-  // logseq.Editor.registerSlashCommand('Add map', async () => {
-  //   const id = generateUniqueId()
-  //   await logseq.Editor.insertAtEditingCursor(
-  //     `{{renderer :map_${id}, default, Singapore}} [:div {:is "map-${id}"}]`,
-  //   )
-  // })
-
-  // logseq.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-  //   const [type, mapType, var1, var2] = payload.arguments
-  //   const uuid = payload.uuid
-  //   if (!type.startsWith(':map_')) return
-  //   const id = type.split('_')[1]?.trim()
-
-  //   if (type.startsWith(':map_')) {
-  //     getMapCentrePoint(slot, uuid, id, mapType, var1, var2)
-  //   }
-  // })
-
-  // logseq.Editor.registerSlashCommand(
-  //   'Get coordinates from location',
-  //   async (blk) => {
-  //     const { rect } =
-  //       (await logseq.Editor.getEditingCursorPosition()) as BlockCursorPosition
-  //     logseq.showMainUI()
-
-  //     const searchLocation = document.createElement('input')
-  //     searchLocation.style.position = 'relative'
-  //     searchLocation.style.top = rect.top + 'px'
-  //     searchLocation.style.left = rect.left + 'px'
-  //     searchLocation.style.zIndex = '99'
-  //     searchLocation.id = 'search-location'
-  //     document.body.appendChild(searchLocation)
-
-  //     searchLocation.addEventListener('keydown', async (e) => {
-  //       if (e.key === 'Enter') {
-  //         logseq.hideMainUI()
-  //         await logseq.Editor.updateBlock(blk.uuid, searchLocation.value)
-  //         await new Promise((r) => setTimeout(r, 500))
-  //         try {
-  //           const response = await axios({
-  //             method: 'get',
-  //             url: `   https://nominatim.openstreetmap.org/`,
-  //             params: {
-  //               q: searchLocation.value,
-  //               format: 'json',
-  //               limit: 1,
-  //             },
-  //           })
-  //           await logseq.Editor.upsertBlockProperty(
-  //             blk.uuid,
-  //             'coords',
-  //             `${response.data[0].lat}, ${response.data[0].lon}`,
-  //           )
-  //           searchLocation.remove()
-  //           logseq.Editor.exitEditingMode()
-  //         } catch (e) {
-  //           logseq.UI.showMsg('Try a more specific location', 'error')
-  //         }
-  //       }
-  //     })
-  //   },
-  // )
 }
 
 logseq.useSettingsSchema(settings).ready(main).catch(console.error)

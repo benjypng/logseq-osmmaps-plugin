@@ -1,8 +1,8 @@
 import '@logseq/libs'
 import '../../leaflet/leaflet.css'
 
-import { LatLngTuple } from 'leaflet'
-import { useEffect, useState } from 'react'
+import { LatLngTuple, Marker as LeafletMarker } from 'leaflet'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   MapContainer,
   Marker,
@@ -48,7 +48,23 @@ const Map = ({
 }) => {
   const [ready, setReady] = useState(false)
   const [locations, setLocations] = useState<LocationProps[]>(locationsFromPage)
+  const markersRef = useRef<(LeafletMarker | null)[]>([])
+
   const host = logseq.Experiments.ensureHostScope()
+
+  const refreshMap = useCallback(async () => {
+    const locationsFromPage = await getLocationsFromPage(uuid)
+    if (!locationsFromPage) return
+    setLocations(locationsFromPage)
+  }, [uuid])
+
+  const handlePopups = useCallback(() => {
+    if (markersRef.current) {
+      markersRef.current.forEach((marker) => {
+        marker?.togglePopup()
+      })
+    }
+  }, [locations])
 
   useEffect(() => {
     if (host.L) {
@@ -71,12 +87,6 @@ const Map = ({
     return <strong>Loading Leaflet...</strong>
   }
 
-  const refreshMap = async () => {
-    const locationsFromPage = await getLocationsFromPage(uuid)
-    if (!locationsFromPage) return
-    setLocations(locationsFromPage)
-  }
-
   return (
     <>
       <MapContainer
@@ -92,19 +102,23 @@ const Map = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {locations.map((location, index) => (
-          <Marker key={index} position={location.coords}>
-            <Popup>{location.description}</Popup>
+          <Marker
+            key={location.id}
+            position={location.coords}
+            ref={(el) => (markersRef.current[index] = el)}
+          >
+            <Popup autoClose={false}>{location.description}</Popup>
           </Marker>
         ))}
         <SetViewOnClick />
         <FitBounds locations={locations} />
       </MapContainer>
       <div className="map-control">
-        <button className="map-refresh-btn" onClick={refreshMap}>
-          <i className="ti ti-refresh"></i>
+        <button className="map-refresh-btn" onClick={handlePopups}>
+          <i className="ti ti-map-pin"></i>
         </button>
         <button className="map-refresh-btn" onClick={refreshMap}>
-          <i className="ti ti-map-pin"></i>
+          <i className="ti ti-refresh"></i>
         </button>
       </div>
     </>

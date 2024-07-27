@@ -1,6 +1,7 @@
 import { LatLngTuple } from 'leaflet'
 
 export interface LocationProps {
+  id: string
   description: string
   coords: LatLngTuple
 }
@@ -24,6 +25,7 @@ export const getLocationsFromPage = async (
         .split(',')
         .map((coord: string) => parseFloat(coord))
       return {
+        id: block.uuid,
         description,
         coords,
       }
