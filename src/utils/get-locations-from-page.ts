@@ -1,3 +1,5 @@
+import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+
 export interface LocationProps {
   id: string
   description: string
@@ -27,22 +29,36 @@ export const getLocationsFromPage = async (
   const page = await logseq.Editor.getPage(block.page.id)
   if (!page) return []
   const pbt = await logseq.Editor.getPageBlocksTree(page.name)
-  return pbt
-    .filter((block) => block.properties?.coords)
-    .map((block) => {
-      const description = block.content.substring(
-        0,
-        block.content.indexOf('\ncoords::'),
-      )
-      const coords = handleCoords(block.properties?.coords)
-      const waypoint = block.properties?.waypoint
-      const markerColor = block.properties?.markerColor
-      return {
-        id: block.uuid,
-        description,
-        coords,
-        waypoint,
-        'marker-color': markerColor,
-      }
-    })
+
+  let locationArr: BlockEntity[] = []
+  for (const block of pbt) {
+    if (block.content.startsWith(`{{query `)) {
+      const queryRx = /\{\{query (.*?)\}\}/
+      const queryString = queryRx.exec(block.content)
+      if (!queryString || !queryString[1]) continue
+      const result = await logseq.DB.q(queryString[1])
+      if (!result) continue
+      locationArr = locationArr.concat(result)
+    } else if (block.properties?.coords) {
+      locationArr.push(block)
+    }
+  }
+
+  // Map location array
+  return locationArr.map((block) => {
+    const description = block.content.substring(
+      0,
+      block.content.indexOf('\ncoords::'),
+    )
+    const coords = handleCoords(block.properties?.coords)
+    const waypoint = block.properties?.waypoint
+    const markerColor = block.properties?.markerColor
+    return {
+      id: block.uuid,
+      description,
+      coords,
+      waypoint,
+      'marker-color': markerColor,
+    }
+  })
 }
