@@ -1,38 +1,26 @@
 .map-control {
         z-index: 100;
 	position: absolute;
-	top: 0;
-	right: 0;
-	margin-right: 0.3rem;
+	bottom: 0.5rem;
+	left: 2.8rem;
+	height: 2rem;
+	display: flex;
+	align-items: end;
 }
 
 .map-select {
 	border: 1px solid black;
-	height: 1.6rem;
+	height: 100%;
 	width: 10rem;
 	font-size: 0.8rem;
-	padding: 0 0.8rem;
+	padding: 0 0.5rem;
 	background-color: #FFFFFF;
 	color: #000000;
-}
-
-.map-input-container {
-	z-index: 999;
-	position: absolute;
-	background-color: #FFFFFF;
-	padding: 0.5rem;
-}
-
-.map-input {
-	border: 1px solid black;
-	background-color: #FFFFFF;
-	color: #000000;
-	font-size: 1rem;
-	padding: 0.5rem;
 }
 
 .map-btn {
-	border: 1px solid;
+	height: 100%;
+	border: 1px solid black;
 	padding: 0 0.5rem;
 	background-color: #FFFFFF;
 	color: #000000;
@@ -46,6 +34,22 @@
 	display: flex;
         align-items: center;
         justify-content: center;
+}
+
+.map-input-container {
+	z-index: 999;
+	position: absolute;
+	background-color: #FFFFFF;
+	padding: 0.5rem;
+}
+
+.map-input {
+	height: 100%;
+	border: 1px solid black;
+	background-color: #FFFFFF;
+	color: #000000;
+	font-size: 1rem;
+	padding: 0.5rem;
 }
 
 /* required styles */
