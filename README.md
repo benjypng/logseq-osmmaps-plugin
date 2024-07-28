@@ -1,32 +1,30 @@
-[:gift_heart: Sponsor this project on Github](https://github.com/sponsors/hkgnp) or [:coffee: Get me a coffee](https://www.buymeacoffee.com/hkgnp.dev) if you like this plugin!
+[:gift_heart: Sponsor this project on Github](https://github.com/sponsors/benjypng) or [:coffee: Get me a coffee](https://www.buymeacoffee.com/hkgnp.dev) if you like this plugin!
 
 # Overview
 
 This plugin looks for coordinates or Google Maps links on your page and plots them as markers on a map. You may use it to journal an event, or record down something memorable that happened there.
 
-![](screenshots/demo.gif)
-
-![](screenshots/demo2.gif)
+![](/screenshots/demo.gif)
 
 # Usage
 
 ## Step 1
 
-Decide on a centerpoint where your markers are likely to be around, and the type of map that you would like to draw. After doing so, start by typing `/Add map` to trigger the below renderer. Depending on the centerpoint and the type of map, you can make changes to the flags. Some examples can be found below:
-
-```
-{{renderer :map_hkuudwvv, default, Singapore}} [:div {:is "map-hkuudwvv"}]
-
-{{renderer :map_hkuudwvv, cycling, Tokyo}} [:div {:is "map-hkuudwvv"}]
-
-{{renderer :map_hkuudwvv, hiking, San Francisco}} [:div {:is "map-hkuudwvv"}]
-```
+Configure your default zoom level and default location in the plugin settings. This will apply to all future maps.
 
 ## Step 2
 
-A map will be drawn on the page. You can then continue to create markers. The plugin looks for block properties `coords` and `waypoint`, where the latter is for creating routes (see below). For `coords`, you can either enter the latitude and longitude of the place in the formats below, or simply attach a Google Maps link. Clicking on the marker will bring you to the corresponding block.
+Start by using the slash command `/Add map`. Make the desired changes to the renderer. For example, in `{{renderer :map_66a602dc-12bc-4abe-8fe0-36e776438fb5, 10, Singapore}}`, the zoom level is 10 and the default location is Singapore.
 
-An example of such a block would be:
+*Note: This plugin assumes that there will only be one map per page.*
+
+## Step 3
+
+To start creating markers, you may choose any of the below options. They can work together on the same map.
+
+### Using blocks
+
+Ensure that the block has a property `coords`. `coords` can be either in the form of simplified or transitional latitude and longitude, or a Google Maps link.
 
 ```
 Jurong Bird Park
@@ -39,59 +37,37 @@ Jurong Bird Park
 coords:: https://www.google.com/maps/place/Jurong+Bird+Park/@1.3190699,103.7043014,17z
 ```
 
-## Step 2A: Using Queries
+### Using Queries
 
-You can also use queries to create markers. Simply add in the following below the map and click the `Refresh` button.
+You can also use queries to create markers. Simply add in the following below the map and click the refresh button.
 
 ```
-{{query (property :tags "france trip")}}
+{{query [[france-trip]]}}
 ```
 
-## Step 2B: Right-clicking on Map
+### Right-clicking on map
 
-When right-clicking on the map, you can automatically create a marker, and a new block will be inserted on the page with the coordinates you just created. You can simply add in the name of the location and click the `Refresh` button to update your marker.
+When right-clicking on the map, you can automatically create a marker, and a new block will be inserted on the page with the coordinates you just created.
 
-## Step 2C: Search Locations
+## Changing colours
 
-Use `/Get coordinates from location` and key in the location that you would like to search for. Be as specific as possible. Press `Enter` and your location will be added as a block.
-
-## Step 3
-
-When finished, click `Refresh` on the top right hand corner of the map, and your markers will be placed on it.
-
-## Step 4
-
-If you want to include routing instructions, you can add a `waypoint` property. First stop would be `waypoint:: 1`, second stop would be `waypoint:: 2` and so on. See below for an example:
+You may also change colours of your markers by adding in a `marker-color` property. For example:
 
 ```
 Jurong Bird Park
 coords:: 1.3187° N, 103.7064° E
-waypoint:: 1
-
-Changi Airport
-coords:: 1.3644° N, 103.9915° E
-waypoint:: 2
+marker-color:: red
 ```
-
-Click on `Refresh` on the top right hand corner of the map to display the routing instructions.
 
 # API keys
 
-### Mapbox:
+*Mapbox:*
 
 Mapbox API keys are for obtaining the cycling and walking directions. Go to [their website](https://www.mapbox.com/) and sign up for a free account. Create a new access token and note down the generated Access Token somewhere.
 
-### Thunderforest:
+*Thunderforest:*
 
 Thunderforest API keys are for providing cycling and hiking maps. Go to [their website](https://www.thunderforest.com/) and sign up for a free account. Upon logging in, your API key is immediately available.
-
-# Important Notes
-
-Please note the following when using this plugin:
-
-1. If you search by address, please try to be as specific as possible. A general search query will likely not return an accurate result.
-2. I have not tested all permutations, so if your search query is obscure, there may be no results.
-3. Routing function (directinos and maps) uses your Mapbox and Thunderforest APIs. Excessive usage may exceed the free usage so **please proceed with caution**.
 
 # Installation
 
@@ -103,9 +79,7 @@ Manual installation for now if you cannot find it in the marketplace.
 
 # Credits
 
-- Darwis for his idea on this implementation approach and his guidance.
 - [Open Street Maps](https://www.openstreetmap.org/copyright) for without them, this plugin would not have been possible since mapping is so damn difficult.
 - [Leaflet](https://www.leafletjs.com) for their excellent mapping API.
-- [Leaflet Routing Machine](https://github.com/perliedman/leaflet-routing-machine) for providing the routing mechanism.
 - [Mapbox](https://www.mapbox.com) for their excellent directions system.
 - [Thunderforest](https://www.thunderforest.com) for their beautiful cycling and hiking maps. They offer other types of maps too!
