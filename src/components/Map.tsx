@@ -35,9 +35,9 @@ const Map = ({
     }
     let timer: any
     const loadLeaflet = async () => {
-      await logseq.Experiments.loadScripts('../leaflet/leaflet.js')
+      await logseq.Experiments.loadScripts('../../leaflet/leaflet.js')
       await logseq.Experiments.loadScripts(
-        '../leaflet/leaflet-routing-machine.js',
+        '../../leaflet/leaflet-routing-machine.js',
       )
       timer = setTimeout(async () => {
         setReady(true)
