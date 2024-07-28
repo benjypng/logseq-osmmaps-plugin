@@ -15,10 +15,12 @@ import RoutingControl from './RoutingControl'
 import SelectedTileLayer from './SelectedTileLayer'
 
 const Map = ({
+  zoom,
   centrePosition,
   uuid,
   locationsFromPage,
 }: {
+  zoom: number
   centrePosition: LatLngTuple
   uuid: string
   locationsFromPage: LocationProps[]
@@ -55,8 +57,8 @@ const Map = ({
   return (
     <>
       <MapContainer
+        zoom={zoom}
         center={centrePosition}
-        zoom={logseq.settings?.defaultZoom}
         scrollWheelZoom={false}
         dragging={true}
         tap={true}

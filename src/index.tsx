@@ -14,14 +14,14 @@ const main = async () => {
 
   logseq.Editor.registerSlashCommand('Add map', async (e) => {
     await logseq.Editor.insertAtEditingCursor(
-      `{{renderer :map_${e.uuid}, Singapore}}`,
+      `{{renderer :map_${e.uuid}, ${logseq.settings?.defaultZoom}, ${logseq.settings?.defaultLocation}}}`,
     )
   })
 
   logseq.App.onMacroRendererSlotted(async ({ slot, payload }) => {
     const uuid = payload.uuid
-    const [type, var1, var2] = payload.arguments
-    if (!type || !type.startsWith(':map') || !var1) return
+    const [type, zoom, var1, var2] = payload.arguments
+    if (!type || !type.startsWith(':map') || !zoom || !var1) return
 
     // If var2 does not exist, search latlng for var1
     // If var1 and var2 exists, take both as the latlng
@@ -43,6 +43,7 @@ const main = async () => {
       const root = createRoot(el)
       root.render(
         <Map
+          zoom={zoom}
           centrePosition={centrePosition}
           uuid={uuid}
           locationsFromPage={locationsFromPage}
