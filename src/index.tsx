@@ -43,7 +43,7 @@ const main = async () => {
       const root = createRoot(el)
       root.render(
         <Map
-          zoom={zoom}
+          zoom={parseFloat(zoom)}
           centrePosition={centrePosition}
           uuid={uuid}
           locationsFromPage={locationsFromPage}

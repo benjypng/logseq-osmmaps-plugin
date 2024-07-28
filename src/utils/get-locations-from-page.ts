@@ -1,14 +1,15 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
+import { LatLngTuple } from 'leaflet'
 
 export interface LocationProps {
   id: string
   description: string
-  coords: number[]
+  coords: LatLngTuple
   waypoint: string
   'marker-color': string
 }
 
-const handleCoords = (str: string): number[] => {
+const handleCoords = (str: string): LatLngTuple => {
   if (str.startsWith('https://www.google.com/maps')) {
     const lat = str.split('@')[1]!.split(',')[0]
     const lng = str.split('@')[1]!.split(',')[1]!.split(',')[0]
@@ -17,7 +18,7 @@ const handleCoords = (str: string): number[] => {
   } else {
     const strArr = str.split(',')
     if (strArr.length !== 2) return [0, 0]
-    return strArr.map((coord: string) => parseFloat(coord))
+    return strArr.map((coord: string) => parseFloat(coord)) as LatLngTuple
   }
 }
 
