@@ -3,15 +3,16 @@
 	position: absolute;
 	bottom: 1rem;
 	left: 3.2rem;
-	height: 2rem;
+	height: 2.2rem;
+	display: flex;
+	align-items: end;
 }
 
 .map-select {
 	border: 1px solid black;
 	height: 100%;
 	width: 10rem;
-	font-size: 0.8rem;
-	padding: 0 0.5rem;
+	font-size: 0.75rem;
 	background-color: #FFFFFF;
 	color: #000000;
 }
