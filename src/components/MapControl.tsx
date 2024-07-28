@@ -13,7 +13,7 @@ import {
   LocationProps,
 } from '../utils/get-locations-from-page'
 
-interface MapControlProps {
+export interface MapControlProps {
   setMapOption: Dispatch<SetStateAction<string>>
   markersRef: RefObject<(LeafletMarker | null)[]>
   setLocations: Dispatch<SetStateAction<LocationProps[]>>

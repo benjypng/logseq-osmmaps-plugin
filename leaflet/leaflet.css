@@ -1,11 +1,6 @@
 .map-control {
         z-index: 100;
-	position: absolute;
-	bottom: 0.5rem;
-	left: 2.8rem;
 	height: 2rem;
-	display: flex;
-	align-items: end;
 }
 
 .map-select {
