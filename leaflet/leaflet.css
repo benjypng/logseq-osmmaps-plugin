@@ -1,5 +1,8 @@
 .map-control {
         z-index: 100;
+	position: absolute;
+	bottom: 1rem;
+	left: 3.2rem;
 	height: 2rem;
 }
 
