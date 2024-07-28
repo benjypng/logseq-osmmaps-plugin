@@ -1,5 +1,4 @@
 import '@logseq/libs'
-import '../../leaflet/leaflet.css'
 
 import { LatLngTuple, Marker as LeafletMarker } from 'leaflet'
 import { useEffect, useRef, useState } from 'react'
@@ -36,9 +35,9 @@ const Map = ({
     }
     let timer: any
     const loadLeaflet = async () => {
-      await logseq.Experiments.loadScripts('./leaflet/leaflet.js')
+      await logseq.Experiments.loadScripts('../leaflet/leaflet.js')
       await logseq.Experiments.loadScripts(
-        './leaflet/leaflet-routing-machine.js',
+        '../leaflet/leaflet-routing-machine.js',
       )
       timer = setTimeout(async () => {
         setReady(true)

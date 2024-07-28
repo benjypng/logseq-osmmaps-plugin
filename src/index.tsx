@@ -2,8 +2,8 @@ import '@logseq/libs'
 
 import { createRoot } from 'react-dom/client'
 
-import css from '../leaflet/leaflet.css?raw'
 import Map from './components/Map'
+import css from './leaflet.css?raw'
 import { settings } from './settings'
 import { getCentrePosition } from './utils/get-centre-position'
 import { getLocationsFromPage } from './utils/get-locations-from-page'
