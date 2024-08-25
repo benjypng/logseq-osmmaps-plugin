@@ -1,5 +1,5 @@
-import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { LatLngTuple } from 'leaflet'
+
 import { recursivelyGetAllLocations } from './recursive-get-all-locations'
 
 export interface LocationProps {
