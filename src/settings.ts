@@ -20,8 +20,8 @@ export const settings: SettingSchemaDesc[] = [
     type: 'string',
     title: 'Default Location (Place or LatLng)',
     description:
-      'Sets default start location for new maps. Can either be a place (e.g. Singapore) or latitude/longitude separated by a comma (e.g. 51.5055, -0.1379)',
-    default: 'Singapore',
+      'Sets default start location for new maps. Can either be a place (e.g. Singapore) or latitude/longitude separated by a pipe (e.g. 51.5055 | -0.1379)',
+    default: '1.3521° N, 103.8198° E',
   },
   {
     key: 'thunderForestApi',

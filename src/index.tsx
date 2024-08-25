@@ -20,12 +20,13 @@ const main = async () => {
 
   logseq.App.onMacroRendererSlotted(async ({ slot, payload }) => {
     const uuid = payload.uuid
-    const [type, zoom, var1, var2] = payload.arguments
-    if (!type || !type.startsWith(':map') || !zoom || !var1) return
+    const [type, zoom, defaultLocation, defaultMarker] = payload.arguments
+    if (!type || !type.startsWith(':map') || !zoom || !defaultLocation) return
 
-    // If var2 does not exist, search latlng for var1
-    // If var1 and var2 exists, take both as the latlng
-    const centrePosition = await getCentrePosition(var1, var2)
+    // Note:
+    // defaultMarker is optional
+    // defaultLocation is either a place, or latlng separated by a pipe
+    const centrePosition = await getCentrePosition(defaultLocation)
 
     const mapId = `map_${uuid}_${slot}`
     logseq.provideUI({
@@ -47,6 +48,7 @@ const main = async () => {
           centrePosition={centrePosition}
           uuid={uuid}
           locationsFromPage={locationsFromPage}
+          defaultMarker={defaultMarker}
         />,
       )
     }, 0)

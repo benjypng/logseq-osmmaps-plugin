@@ -17,16 +17,30 @@ const Map = ({
   centrePosition,
   uuid,
   locationsFromPage,
+  defaultMarker,
 }: {
   zoom: number
   centrePosition: LatLngTuple
   uuid: string
   locationsFromPage: LocationProps[]
+  defaultMarker?: string
 }) => {
   const [ready, setReady] = useState(false)
   const [locations, setLocations] = useState<LocationProps[]>(locationsFromPage)
   const [mapOption, setMapOption] = useState<string>('')
+  const [defaultMarkerOnMap, setDefaultMarkerOnMap] = useState<LatLngTuple>()
   const markersRef = useRef<(LeafletMarker | null)[]>([])
+
+  // Handle defaultMarker
+  useEffect(() => {
+    if (!defaultMarker && defaultMarker?.split('|').length !== 2) return
+
+    const markerTuple = defaultMarker?.split('|')
+    setDefaultMarkerOnMap([
+      parseFloat(markerTuple[0]!.trim()),
+      parseFloat(markerTuple[1]!.trim()),
+    ])
+  }, [defaultMarker])
 
   const host = logseq.Experiments.ensureHostScope()
   useEffect(() => {
@@ -63,6 +77,9 @@ const Map = ({
         style={{ height: '400px', width: '83vh', zIndex: 0 }}
       >
         <SelectedTileLayer mapOption={mapOption} />
+        {defaultMarkerOnMap && (
+          <Marker position={defaultMarkerOnMap} icon={svgIcon(host, 'blue')} />
+        )}
         {locations.map((location, index) => (
           <Marker
             key={location.id}

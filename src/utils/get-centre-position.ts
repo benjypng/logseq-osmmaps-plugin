@@ -2,22 +2,28 @@ import axios from 'axios'
 import { LatLngTuple } from 'leaflet'
 
 export const getCentrePosition = async (
-  var1: string,
-  var2: string | undefined,
+  defaultLocation: string,
 ): Promise<LatLngTuple> => {
-  if (!var2) {
+  // defaultLocation can either be a place, or latlng separated by a pipe
+  const checkLatLngOrPlace = defaultLocation.split('|')
+
+  if (checkLatLngOrPlace.length === 1) {
     const response = await axios({
       method: 'get',
       url: `   https://nominatim.openstreetmap.org/`,
       params: {
-        q: var1,
+        q: defaultLocation,
         format: 'json',
         limit: 1,
       },
     })
-
     return [parseFloat(response.data[0].lat), parseFloat(response.data[0].lon)]
+  } else if (checkLatLngOrPlace.length === 2) {
+    return [
+      parseFloat(checkLatLngOrPlace[0]!),
+      parseFloat(checkLatLngOrPlace[1]!),
+    ]
   } else {
-    return [parseFloat(var1), parseFloat(var2)]
+    return [1.3521, 103.8198]
   }
 }

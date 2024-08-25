@@ -14,9 +14,14 @@ Configure your default zoom level and default location in the plugin settings. T
 
 ## Step 2
 
-Start by using the slash command `/Add map`. Make the desired changes to the renderer. For example, in `{{renderer :map_66a602dc-12bc-4abe-8fe0-36e776438fb5, 10, Singapore}}`, the zoom level is 10 and the default location is Singapore.
+Start by using the slash command `/Add map`. Make the desired changes to the renderer. For example, in `{{renderer :map_66a602dc-12bc-4abe-8fe0-36e776438fb5, 10, Singapore}}`, the zoom level is 10 and the default location is Singapore. Instead of using a single location, you may also use a latlng expression, **split by a pipe (|)**. Any other separation method is not supported.
 
-*Note: This plugin assumes that there will only be one map per page.*
+You may also append a default marker at the end, like in the example below. In this case, you may have multiple maps on a single page, but with different default marker positions. You will then not be relying on the marker coordinates found on blocks within the page, or within queries. The default marker can only be specified using a latlng expression, **split by a pipe(|)**.
+```
+{{renderer :map_66caccd5-871a-4e33-b737-785119dcbb60, 10, 1.3138° N | 103.8159° E, 1.3586° N | 103.9899° E}}
+```
+
+*TLDR: This plugin assumes that there will only be one map per page when it comes to collecting markers. E.g. You can have multiple maps per page, but they need to be defined in the renderer, and not as blocks. If you want to define them as blocks, then there should only be one map on the page.*
 
 ## Step 3
 
