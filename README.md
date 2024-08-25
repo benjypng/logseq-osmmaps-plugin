@@ -44,11 +44,13 @@ coords:: https://www.google.com/maps/place/Jurong+Bird+Park/@1.3190699,103.70430
 
 ### Using Queries
 
-You can also use queries to create markers. Simply add in the following below the map and click the refresh button.
+You can also use queries to create markers. Simply add in the following query in a page containing the map:
 
 ```
-{{query [[france-trip]]}}
+{{query (property :coords)}}
 ```
+
+You may add other query parameters, but it is important that you include `(property :coords)`.
 
 ### Right-clicking on map
 
