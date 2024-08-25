@@ -2,6 +2,13 @@ import { SettingSchemaDesc } from '@logseq/libs/dist/LSPlugin'
 
 export const settings: SettingSchemaDesc[] = [
   {
+    key: 'defaultMapUrl',
+    type: 'string',
+    title: 'Default Tile Layer URL',
+    description: 'Sets the url for the default tile layer.',
+    default: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  },
+  {
     key: 'defaultZoom',
     type: 'number',
     title: 'Default Zoom',
