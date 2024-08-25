@@ -1,5 +1,6 @@
 import { BlockEntity } from '@logseq/libs/dist/LSPlugin.user'
 import { LatLngTuple } from 'leaflet'
+import { recursivelyGetAllLocations } from './recursive-get-all-locations'
 
 export interface LocationProps {
   id: string
@@ -31,19 +32,7 @@ export const getLocationsFromPage = async (
   if (!page) return []
   const pbt = await logseq.Editor.getPageBlocksTree(page.name)
 
-  let locationArr: BlockEntity[] = []
-  for (const block of pbt) {
-    if (block.content.startsWith(`{{query `)) {
-      const queryRx = /\{\{query (.*?)\}\}/
-      const queryString = queryRx.exec(block.content)
-      if (!queryString || !queryString[1]) continue
-      const result = await logseq.DB.q(queryString[1])
-      if (!result) continue
-      locationArr = locationArr.concat(result)
-    } else if (block.properties?.coords) {
-      locationArr.push(block)
-    }
-  }
+  const locationArr = await recursivelyGetAllLocations(pbt)
 
   // Map location array
   return locationArr.map((block) => {
